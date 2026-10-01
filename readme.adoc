@@ -1,3 +1,24 @@
+= Vacation Booking & Event Management System
+
+== Über das Projekt
+Eine vollumfängliche Verwaltungssoftware für Ferienhäuser und Event-Tickets (Softwaretechnologie-Projekt der TU Dresden). Das System umfasst Account-Management, Buchungslogiken und ein integriertes Bezahlsystem. 
+
+== Tech Stack
+* *Backend:* Java 21, Spring Boot, Salespoint Framework
+* *Frontend:* HTML, CSS, Thymeleaf
+
+== Meine Rolle
+Entwicklung im agilen Team. Wir haben Code-Ownership geteilt und Herausforderungen bei der Implementierung von Backend-Logik und Repositories gemeinsam gelöst.
+
+== Statische Code-Referenz
+Dieses Repository dient als Referenz für Backend-Architektur (MVC-Pattern, Dependency Injection in Spring Boot). Da das Projekt primär für das universitäre Labor-Setup konfiguriert wurde, dient der Upload hier als Leseprobe der Code- und Dokumentationsstruktur.
+
+'''
+
+*(Original University Template follows below)*
+
+
+
 image:https://github.com/st-tu-dresden-praktikum/swt24w02/workflows/CI%20build/badge.svg["CI Build", link="https://github.com/st-tu-dresden-praktikum/swt24w02/actions"]
 image:https://img.shields.io/badge/SonarQube-checked-blue?logo=sonarqube["SonarQube status", link="https://st-lab-ci.inf.tu-dresden.de/sonarqube/"]
 
