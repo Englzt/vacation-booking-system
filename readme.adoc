@@ -1,7 +1,7 @@
 = Vacation Booking & Event Management System
 
 == Über das Projekt
-Eine vollumfängliche Verwaltungssoftware für Ferienhäuser und Event-Tickets (Softwaretechnologie-Projekt der TU Dresden). Das System umfasst Account-Management, Buchungslogiken und ein integriertes Bezahlsystem. 
+Eine vollumfängliche Verwaltungssoftware für Ferienhäuser und Event-Tickets (Softwaretechnologie-Projekt der TU Dresden). Das System umfasst Account-Management, Buchungslogiken und ein integriertes, rudimentäres Bezahlsystem. 
 
 == Tech Stack
 * *Backend:* Java 21, Spring Boot, Salespoint Framework
