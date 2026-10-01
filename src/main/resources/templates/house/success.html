@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Details</title>
+</head>
+<body>
+    <nav th:insert="~{header :: navbar}"></nav>
+    <header>
+        <h1 th:text="'Du hast das Haus: ' + ${house.getName} + ' erfolgerich gebucht!'">Haus Name</h1>
+    </header> <br />
+
+    <form th:action="@{/static}" method="get">
+        <button class="center-button" style="background-color: lightgreen;">Hauptmenü</button>
+    </form>
+
+
+</body>
+</html>

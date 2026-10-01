@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="'Cancel: ' + ${event.name}"></title>
+</head>
+<body>
+
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="del-content">
+    <h1 class="standard-header" th:text="#{event.really} + ' ' + ${event.name} + ' ' + #{event.deleteEvent}" style="text-align: center"></h1>
+    <p class="standard-sub" th:text="#{event.cancelEventTicketInformation}" style="text-align: center">
+        Es werden alle Tickets gebuchten Tickets automatisch zurückerstattet. Diese Aktion kann nicht rückgängig gemacht werden.
+    </p>
+
+    <img th:src="${event.getImagePaths().getFirst()}" loading="lazy" alt="image" class="delete-image" width="1024"
+         height="1024"/>
+    <div class="delete-option-wrapper">
+        <form th:action="@{/myEvents}" method="get">
+            <button class="approve_button" th:text="#{event.abort}">Abbrechen</button>
+        </form>
+
+        <form method="post" th:action="@{/events/deleteEvent/{eventId}(eventId=${event.id})}">
+            <button class="silent-del" type="submit" th:text="#{event.cancel}">Absagen</button>
+            <br/>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

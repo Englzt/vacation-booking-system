@@ -1,0 +1,93 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe: G02__
+__Anwendung von Gruppe: G01__
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung.
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+| http://localhost:8080/login | falscher Name/ Passwort| Es kommen keine Fehler-Messages auf der Seite, die einem sagen, was man falsch gemacht hat |-
+
+| http://localhost:8080/register http://localhost:8080/users | egal | Es gibt keine Einschränkung was man in die Felder rein-schreiben kann, weswegen die Übersicht beim Admin Account kaputtgeht |-
+
+| http://localhost:8080/register | hans | Wenn man einen Account löscht, kann trotzdem kein Account mit dem Namen erstellt werden, der gelöschte Account aber auch nicht wieder aktiviert werden | User with name hans already exists!
+
+| http://localhost:8080/booking/{id} |- | kann mit jedem Account aufgerufen werden (Rolle egal), jeder kann Buchungen durchführen |-
+
+| http://localhost:8080/booking/{id} | jede Eingabe | Der Versuch eine Buchung für ein Ferienhaus durchzuführen führt immer zu einem Error | Whitelabel Error Page
+
+| http://localhost:8080/booking/{id} | Datum in Vergangenheit | Man kann eine Buchung in der Vergangenheit durchführen | Whitelabel Error Page
+
+| http://localhost:8080/booking/{id} | 5555555555555555555555555555 für Anzahl der Gäste | man kann die Anzahl der Gäste unendlich erhöhen, was einen Fehler bei der Umwandlung (java.lang.String to required type int) gibt | Failed to convert property value of type java.lang.String to required type int for property guests; For input string: "5555555555555555555555555555"
+
+|  http://localhost:8080/booking/{id} |- | Wenn ein Haus viele Events hat, ist die Buchungsseite nicht mehr sauber ausgerichtet und nicht mehr bedienbar |-
+
+| http://localhost:8080/events/{id} |- | Verfügbarkeit Prüfen macht nichts, kann aber von allen Accounts/ Rollen verwendet werden |-
+
+| Events |- | Hardcoded Events liegen in der Vergangenheit, was Fehler bei der Buchung etc. auslösen kann und eigentlich nicht funktionieren sollte |-
+
+| http://localhost:8080/events/create? http://localhost:8080/events/edit/{id} | png hochladen | wenn man eine zu große Datei hochlädt (dafür gibt es keine Warnung oder Restriction), dann crashed die Anwendung | Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+
+| http://localhost:8080/events/create? http://localhost:8080/events/edit/{id} | 100000000000000000000000000000 | Man kann bei Capacity beliebig große rein-schreiben | [Failed to convert property value of type 'java.lang.String' to required type 'int' for property 'capacity'; For input string: "100000000000000000000000000000"]
+
+| http://localhost:8080/events | - | Es werden auf der Veranstaltungsseite keine Events angezeigt, da alle in der Vergangenheit liegen (schätz ich mal), jedoch werden diese trotzdem auf der Startseite alle aufgeführt. | -
+
+| http://localhost:8080/events/edit/{id} | ändern Eventtyp | Speichern dieser Änderung hat keinen Effekt |-
+
+| http://localhost:8080/my-hotels http://localhost:8080/hotels/delete/{id} | Haus Löschen drücken | Wenn man versucht ein Haus zu löschen kommt eine Whitelabel Error Page | Whitelabel Error Page
+
+| - | my-hotels per url aufrufen | Wenn man in keinen Account eingelogt ist, kommt man bei dem Aufruf zur Login Seite, wenn man den Vorgang allerdings als gewöhnlich eingelogter Tenant macht kommt eine Error Page | Whitelabel Error Page
+
+|- |- | Wenn der Admin einen Landlord oder Event Account löscht bleiben die assoziierten Events und Häuser bestehen |-
+
+| http://localhost:8080/hotels/create? | kein Bild hochladen | Es gibt kein Standard Bild, weswegen man das fehlende Bild Icon bekommt auf jeder Seite |-
+
+| http://localhost:8080/hotels/create? | Adresse eingeben | nearby Events ist immer leer, selbst wenn man die gleiche Adresse wie die von Events eingibt |-
+
+| http://localhost:8080/hotels/create? http://localhost:8080/hotels/edit/{id} | Ein Sofa, nur für 3 Armeisen | Man kann bei Häusern jeden möglichen Parameter reingeben in Room Types und Facilities |-
+
+| http://localhost:8080/hotels/edit/{id} | 100 | Preisänderungen werden nicht gespeichert |-
+
+| http://localhost:8080/hotels/edit/{id} http://localhost:8080/hotels/create? http://localhost:8080/events/create? http://localhost:8080/events/edit/{id} | svg hochladen als bild | man kann jedes Dateiformat hochladen | nichts, die Seite lädt auf ewig
+| http://localhost:8080/events/delete/{id} | id von großem Event mit gebuchten Häusern | Event sollte gelöscht werden | Datenbankfehler: Referentielle Integrität verletzt
+| http://localhost:8080/events/create? | Ungültige Adresse eingeben, z.B. "Keine echte Straße 666, 04587"| Es sollte abgefangen werden | Whitelabel Error Page: java.lang.RuntimeException: Coordinates not found for the given address
+| http://localhost:8080/events/create? | - | Bilder hochladen und verwalten geht nur mit aktiviertem JavaScript (gilt auch für edit Seiten / Hotel Seiten) | -
+| http://localhost:8080/events/create? | - | Dropdown für Einstellungen zu Big-Event erscheinen nur bei aktiviertem JavaScript (gilt auch für edit Seiten) | -
+| http://localhost:8080/hotels/filter?name=ferienhaus+1&minPrice=&maxPrice=&location= | ferienhaus 1 | einziges registriertes Ferienhaus ist "Ferienhaus 1", wird allerdings bei Sucheingabe nicht angezeigt | Keine passenden Hotels gefunden.
+
+
+|===
+
+== Sonstiges
+* Optik der Anwendung
+- Kontrast nicht hoch genug auf manchen Seiten (schwarze Schrift auf dunklem Hintergrund), weswegen man die Texte nicht lesen kann bsp: http://localhost:8080/booking/{id}
+- http://localhost:8080/events/{id} auf der Seite und allen anderen ist die Beschreibung abgeschnitten
+- http://localhost:8080/my-hotels Zeilenumbruch beim Namen + Location wird nicht richtig angezeigt
+- http://localhost:8080/ € und EUR gleichzeitig geschrieben bei Häusern/ Hotels
+- Manche Seiten haben keine Hover-Animation, andere nicht z.B.: http://localhost:8080/booking/{id}  http://localhost:8080/events/{id}
+- http://localhost:8080/hotels/{id} hovern verschiebt das obere Feld und überlagert mit der Karte
+- Buttons auf den Haus Detail Seiten gehen einfach über Bild und Text
+- Header ist teilwiese in verschiedenen Unterreitern unterschiedlich groß mit unterschiedlicher Schriftgröße
+
+* Fehlende Features
+- http://localhost:8080/contact-us hat keine Funktion/ es gibt keine Möglichkeit, um die Nachrichten einzusehen.
+- Fehler-Messages fehlen auf manchen Seiten (z.B.: Login und Register)
+- Booking Feature ist absolut gar nicht entahlten (Ich weiß das in der readme steht, dass es noch nicht "vollständig" implementiert ist, jedoch dachte ich das es einfach nur ein paar kleine Bugs gibt, anstatt das es gar nichts zu diesem Grund-Feature gibt.) 
+- Es gibt generell wenig zusammenhängende Funktionalitäten zwichen den einzelnen Subsystemen (z.B. nahezu komplette Haus-Event Logik fehlt) 
+
+
+* Interaktion mit der Anwendung (Usability)
+- Sind es Ferienhäuser oder Hotels?
+- Deutsch und Englisch vermischt
+- Bedienung aufgrund fehlender Messages nicht intuitiv
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
+- bessere UX durch Fehlermeldungen, Drop-Down menüs statt Textboxen für z.B. Facilities, lesbare Schrift auf allen Seiten in einer einheitlichen Sprache und einheitlicher Bennenung für Elemente (z.B. Hotel-Ferienhaus) 
+- grüne Buttons fürs Buchen werden bei Hovern rot (wirkt sehr unintuitiv) 
+- 

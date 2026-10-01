@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/calendar.css}">
+    <link href="https://www.openstreetmap.org" rel="preconnect">
+    <title th:text="${house.getName()}">Details</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+
+<div class="big-house-container">
+    <h1 class="house-name" th:text="${house.getName()}">Haus Name</h1>
+    <div class="image-container">
+        <img alt="image" class="big-house-image" height="1024" th:src="${house.getImagePaths().get(0)}" width="1024"/>
+
+        <div class="small-images">
+            <img alt="Event Image" class="event-image" height="1024" th:src="${image}" width="1024" th:each="image, iterStat : ${house.getImagePaths()}"
+                 th:if="${iterStat.index > 0}"/>
+        </div>
+    </div>
+
+
+    <div class="desc-reserve-wrapper">
+
+        <div class="house-description">
+            <div style="margin-bottom: 1rem">
+                <div class="house-location-wrapper">
+                    <p class="house-location" th:text="${house.location.getStreetCityNumber()}"></p>
+                    <div th:if="${house != null}"
+                         style="display: flex; flex-direction: row; align-items: center; gap: 0.5rem">
+                        <p class="house-location"
+                           style="font-weight: 700"
+                           th:text="${house.getAverageRating()}"
+                           th:if="${house.getAverageRating() != 0.0}"
+                        >
+                        </p>
+                        <img alt="Sternebewertung" class="star"
+                             th:src="@{/img/icons/star.png}"
+                             th:style="${house.getAverageRating() == 0.0 ? 'filter: saturate(0.2);' : 'filter: saturate(1);'}"
+                        >
+                    </div>
+
+                </div>
+                <div style="display: flex; flex-direction: row; gap: 0.5rem; align-items: center; margin-bottom: 1rem">
+                    <th:block th:if="${LandlordImagePath != null and LandlordImagePath.size() > 0}">
+                        <img alt="Sternebewertung" class="star" style="border-radius: 100%"
+                             th:src="${LandlordImagePath[0]}">
+                    </th:block>
+                    <p th:text="${Landlord}" style="font-weight: 700; font-size: 1.25rem"></p>
+                </div>
+                <div class="stat-wrapper">
+
+                <div class="tiny-stat">
+                        <p th:text="${house.maxPerson}">Persons</p>
+                        <p th:text="#{myHouse.details.persons}">Personen</p>
+                    </div>
+                    <div class="point"></div>
+                    <div class="tiny-stat">
+                        <p th:text="${house.beds}">Beds</p>
+                        <p th:text="#{myHouse.details.beds}">Betten</p>
+                    </div>
+                    <div class="point" th:if="${house.kitchen}"></div>
+                    <div class="tiny-stat">
+                        <!-- <img th:if="${house.kitchen}" th:src="@{/img/kitchen.png}" alt="kitchen" class="description-icon">-->
+
+                        <p th:text="${house.kitchen}">Kitchen</p>
+                        <p th:text="#{myHouse.details.kitchen}">Küche</p>
+                    </div>
+                    <div class="point"></div>
+                    <div class="tiny-stat">
+                        <p th:text="${house.bathrooms}">Bath</p>
+                        <p th:text="#{myHouse.details.bath}">Bäder</p>
+                    </div>
+                    <div class="point"></div>
+                    <div class="tiny-stat">
+                        <img alt="parking" class="description-icon" th:if="${house.parkingSpot}"
+                             th:src="@{/img/icons/parking.png}">
+                    </div>
+                    <div class="point" th:if="${house.handicappedAccessible}"></div>
+                    <div class="tiny-stat">
+                        <img alt="handicapped accessible" class="description-icon"
+                             th:if="${house.handicappedAccessible}" th:src="@{/img/icons/disabled.png}">
+                    </div>
+                </div>
+
+                <p th:text="${house.description}"></p>
+            </div>
+
+
+            <div class="map-wrapper" style="display: none">
+                <iframe
+                        frameborder="0"
+                        height="500"
+                        loading="lazy"
+                        scrolling="no"
+                        style="border: 1px solid #717171; border-radius: 1rem; aspect-ratio: 1"
+                        th:src="${house.location.getUrl()}"
+                        width="100%">
+                </iframe>
+            </div>
+
+        </div>
+        <div class="reservation-container">
+            <form method="post" th:action="@{/rent}">
+                <div class="check-in">
+                    <label>
+                        <span class="check-in-label">Check-In</span>
+                        <input class="check-input" id="interval_start" name="interval_start" required="required"
+                               th:value="${eventStartDate}" type="date">
+                    </label>
+                    <label>
+                        <span class="check-out-label">Check-Out</span>
+                        <input class="check-out-input" id="interval_end" name="interval_end" placeholder="Check-Out"
+                               required="required" th:value="${eventEndDate}" type="date">
+                    </label>
+                </div>
+                <input name="house_id" th:value="${house.id}" type="hidden">
+
+                <div class="calendar-wrapper">
+                    <div class="calendar-controls" style="display: none;">
+                        <button class="next-button" id="prevMonth" type="button">◀</button>
+                        <span id="monthYear"></span>
+                        <button class="next-button" id="nextMonth" type="button">▶</button>
+                    </div>
+                    <div class="infobox" id="infobox">Infotext</div>
+                    <div class="calendar" id="calendar" style="display: none;"></div>
+
+                    <!-- Alternative listing of all bookings if the user has disabled JavaScript -->
+                    <div id="calendar_alt">
+                        <p th:text="#{javascript.disabled_warning}">Please enable JavaScript for a better experience.</p>
+                        <table style="width: 100%;">
+                            <thead>
+                            <tr>
+                                <th th:text="#{date.day}">Date</th>
+                                <th th:text="#{myHouse.details}">Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="date : ${dates}">
+                                <td th:text="${date.key}"></td>
+                                <td th:text="${date.value.replace('|', ' - ')}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="error-message" th:if="${dateError != null}" th:text="${dateError}"></div>
+                </div>
+
+                <div class="calculation">
+                    <div>
+                        <p class="nights-times">
+                            <span id="nightsCount">1 Nacht</span>
+                            x
+                            <span id="pricePerNight"
+                                  th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                            0</span> Nacht
+                        </p>
+                    </div>
+                    <div class="calc-line"></div>
+                    <div class="total-wrapper">
+                        <p class="total-p">Gesamt</p>
+                        <p class="sum-p" id="totalPrice"
+                           th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                            0€</p>
+                    </div>
+                </div>
+
+                <p class="reservation-hint">
+                    <span>
+                        Du musst danach <span id="downPayment">0€</span> (10%) anzahlen
+                    damit die Reservierung besteht
+                    </span>
+
+                </p>
+                <input class="reservation-button" sec:authorize="hasRole('Customer')" type="submit"
+                       value="Make Reservation">
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${!allEvents[0].isEmpty() || !allEvents[1].isEmpty()}" th:each="elist, iterStat : ${allEvents}">
+        <h2 th:if="${iterStat.index == 0 && !elist.isEmpty()}" class="standard-header-2" th:text="#{house.hosted-events}">Hosted Events</h2>
+        <h2 th:if="${iterStat.index == 1 && !elist.isEmpty()}" class="standard-header-2" th:text="#{house.advertised-events}">Other Events nearby</h2>
+        <div class="event-house-wrapper" style="justify-content: flex-start; gap: 1.5rem;">
+            <div class="event-container" th:each="event : ${elist}">
+            <a th:href="@{/event/{id}(id=${event.id})}" class="event-link">
+                <div class="event-wrapper">
+                    <img th:src="${event.getImagePaths().getFirst()}"  loading="lazy" alt="image" class="event-image" width="1024" height="1024"/>
+                    <div class="event-information-house">
+                        <h2 class="event-container-title" th:text="${event.name}">Event</h2>
+                        <div class="information-wrapper">
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/time.png}" alt="time-icon" class="event-icon" width="1024" height="1024"/>
+                                <p th:text="${event.time}">00:00</p>
+                                <p th:text="${event.getFEStartDateString()} + ' - ' + ${event.getFEEndDateString()}">00.00</p>
+                            </div>
+
+                            <div class="event-container-info" th:if="${event.location != null}">
+                                <img th:src="@{/img/icons/map.png}" alt="event-icon" class="event-icon" width="1024" height="1024"/>
+                                <p th:text="${event.location.getStreetCityNumber()}">Adresse</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+        </div>
+        <br/>
+    </div>
+    <br />
+
+
+    <div th:insert="~{common/comments :: add_comment(product=${house}, type='House')}"></div>
+    <div th:insert="~{common/comments :: show_comments(product=${house})}"></div>
+
+    <script>
+        /* show javascript based calendar and map wrapper */
+        document.getElementById('calendar').style.display = 'grid';
+        document.getElementsByClassName('calendar-controls').item(0).style.display = 'flex';
+        document.getElementsByClassName('map-wrapper').item(0).style.display = 'block';
+
+        /* hide alternative display for calendar */
+        document.getElementById('calendar_alt').style.display = 'none';
+    </script>
+
+    <script th:inline="javascript">
+        let dates = [[${dates}]];
+    </script>
+    <script th:inline="javascript">
+        let monthNames = [[${#messages.msg('calendar.months')}]].split(",");
+        let daysOfWeek = [[${#messages.msg('calendar.weekdays')}]].split(",");
+        let todayRaw = [[${today}]];
+
+        let startDate = [[${eventStartDate}]];
+        let endDate = [[${eventEndDate}]];
+    </script>
+    <script th:inline="javascript" th:src="@{/js/calendar.js}"></script>
+</div>
+
+<footer th:insert="~{common/debug_footer :: time_controller(origin_type='house', origin_id=${house.id})}"></footer>
+</body>
+</html>

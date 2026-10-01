@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Fehler</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="no-booking-container">
+    <img th:src="@{/img/emptySpace/error gold.png}" alt="" class="filler-image" width="1024" height="1024"/>
+    <h1 class="error-code" th:text="#{error.error}">Fehler</h1>
+    <h1 class="no-bookings" th:text="#{server.error-header}">ist aufgetreten</h1>
+    <p class="cta-no-bookings" th:text="#{server.error-message}">Es ist ein Fehler aufgetreten.</p>
+</div>
+</body>
+</html>

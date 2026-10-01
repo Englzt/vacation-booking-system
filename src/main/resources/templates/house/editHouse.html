@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="'Edit: ' + ${house.name}"></title>
+
+</head>
+<body style="overflow-x: hidden">
+    <!--
+        Header soll auskommentiert sein, weil es sonst unter Umständen dazu führen kann,
+        dass ein Haus kein Bild hat und dann nicht mehr bearbeitet / gelöscht werden kann.
+    -->
+    <!--<nav th:insert="~{header :: navbar}"></nav>-->
+
+<div class="big-house-container">
+    <form method="post" role="form" class="ui form" id="houseForm" th:action="@{/myHouses/edit/{id}(id=${house.id})}"
+          th:object="${houseForm}" enctype="multipart/form-data">
+        <h1 class="standard-header" th:text="#{myHouse.d.edit(${house.name})}"></h1>
+        <div class="add-house-layout">
+            <div class="image-upload-left">
+                <div th:insert="~{common/image_manager :: img_uploader(type='house', amount=${5 - house.getImagePaths().size()})}"></div>
+                <div th:replace="~{common/image_manager.html :: img_manager(type='house', entityId=${house.id})}"></div>
+            </div>
+            <div class="right-add-area">
+
+                <div class="text-field-container">
+                    <label for="name" th:text="|#{myHouse.name}:|">Hausname:</label>
+                    <input class="form-input" id="name" name="name" th:field="*{name}" th:errorclass="fieldError" type="text" required="required"/>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                        <p class="error-message" th:errors="*{name}">Name nicht leer</p>
+                    </div>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="description" th:text="|#{myHouse.desc}:|">Beschreibung:</label>
+                    <textarea class="form-input" id="description" name="description" th:field="*{description}"
+                              maxlength="254" th:errorclass="fieldError"
+                              required="required">Beschreibungsfeld</textarea>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('description')}">
+                        <p class="error-message" th:errors="*{description}">Die Beschreibung darf nicht fehlen!</p>
+                    </div>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="location" th:text="|#{myHouse.address}:|">Adresse:</label>
+                    <input class="form-input" id="location" name="location" th:field="*{location}" th:errorclass="fieldError" type="text"
+                           title="Format: Street House number, Postal code City, Country"
+                           pattern=".+?\s+[A-Za-z0-9]+,\s+\d{5}\s+.+?,\s+.+?"
+                           value="Nöthnitzer Straße 46, 00187 Dresden, Deutschland"
+                           style="width: 450px;" required="required"/>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('location')}">
+                        <p class="error-message" th:errors="*{location}">location richtig</p>
+                    </div>
+                </div>
+
+
+
+
+                <div class="check-box-container-container">
+
+                    <div class="checkbox-wrapper-4">
+
+                        <input class="inp-cbx" id="parkingSpot" name="parkingSpot" type="checkbox"
+                               th:attr="checked=${house.parkingSpot ? 'checked' : null}"
+                               value="true" />
+                        <label class="cbx" for="parkingSpot" >
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlink:href="#check-4"></use>
+                        </svg>
+                    </span>
+                            <span th:text="#{myHouse.d.parking}">Parkplatz</span>
+                        </label>
+                        <svg class="inline-svg">
+                            <symbol id="check-4" viewBox="0 0 12 10">
+                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </symbol>
+                        </svg>
+                    </div>
+
+
+                    <div class="checkbox-wrapper-4">
+                        <!-- Checkbox -->
+                        <input
+                                class="inp-cbx"
+                                id="handicapped"
+                                name="handicappedAccessible"
+                                type="checkbox"
+                                th:attr="checked=${house.handicappedAccessible ? 'checked' : null}"
+                                value="true" />
+
+                        <label class="cbx" for="handicapped">
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlink:href="#check-4"></use>
+                        </svg>
+                    </span>
+                            <span  th:text="#{myHouse.d.access}"></span>
+                        </label>
+
+                        <svg class="inline-svg">
+                            <symbol id="check-4" viewBox="0 0 12 10">
+                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </symbol>
+                        </svg>
+                    </div>
+                </div>
+
+
+
+
+                <div class="house-grid">
+                    <div class="text-field-container">
+                        <label for="max_person" th:text="|#{myHouse.d.maxPerson}:|">Maximale Personenanzahl:</label>
+                        <input class="form-input number-input" pattern="^[0-9]$" id="max_person" name="max_person" th:field="*{maxPerson}" th:errorclass="fieldError" type="number"
+                               min="1" step="1" required="required"/>
+                        <div class="ui negative message" th:if="${#fields.hasErrors('maxPerson')}">
+                            <p class="error-message" th:errors="*{maxPerson}">nicht leer</p>
+                        </div>
+                    </div>
+
+                    <div class="text-field-container">
+                        <label for="beds" th:text="|#{myHouse.d.beds}:|">Anzahl Betten:</label>
+                        <input class="form-input number-input" pattern="^[0-9]$" id="beds" name="beds" th:field="*{beds}" th:errorclass="fieldError" type="number" min="0" step="1"
+                               required="required"/>
+                        <div class="ui negative message" th:if="${#fields.hasErrors('beds')}">
+                            <p class="error-message" th:errors="*{beds}">nicht leer</p>
+                        </div>
+                    </div>
+
+                    <div class="text-field-container">
+                        <label for="kitchen" th:text="|#{myHouse.d.kitchen}:|">Anzahl Küchen:</label>
+                        <input class="form-input number-input" pattern="^[0-9]$" id="kitchen" name="kitchen" th:field="*{kitchen}" th:errorclass="fieldError" type="number" min="0"
+                               step="1" required="required"/>
+                        <div class="ui negative message" th:if="${#fields.hasErrors('kitchen')}">
+                            <p class="error-message" th:errors="*{kitchen}">nicht leer</p>
+                        </div>
+                    </div>
+
+                    <div class="text-field-container">
+                        <label for="bathrooms" th:text="|#{myHouse.d.bath}:|">Anzahl Bäder:</label>
+                        <input class="form-input number-input" pattern="^[0-9]$" id="bathrooms" name="bathrooms" th:field="*{bathrooms}" th:errorclass="fieldError" type="number"
+                               min="0" step="1" required="required"/>
+                        <div class="ui negative message" th:if="${#fields.hasErrors('bathrooms')}">
+                            <p class="error-message" th:errors="*{bathrooms}">nicht leer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-wrapper-price">
+                    <div class="price-field-container">
+
+                        <input class="form-input number-input price-input"
+                               id="price"
+                               name="price_money_input"
+                               type="number"
+                               min="0.01"
+                               step="0.01"
+                               required="required"
+                               th:value="${house.getPrice().getNumber().doubleValue()}"/>
+                        <span class="€">€</span>
+                        <label for="price" th:text="#{myHouse.d.price}" class="price-label"></label>
+                    </div>
+
+                    <button type="submit" class="approve_button house-button" th:text="#{editHouse.submit}">
+                        Edit
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+    <form method="get" th:action="@{/cancelEditHouse/{id}(id=${house.id})}" id="cancelEditHouse">
+        <button type="submit" class="silent-del decline_button" th:text="#{button.cancel}">
+            Cancel
+        </button>
+    </form>
+</div>
+</body>
+</html>

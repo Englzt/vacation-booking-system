@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.events}">Events</title>
+</head>
+<body><nav th:insert="~{header :: navbar}"></nav>
+<div class="big-event-container">
+    <h1 class="standard-header" th:text="#{event.currentEvents}">Current Events</h1>
+    <div class="event-list">
+
+        <div class="event-container" th:each="event : ${eventList}" th:if="${!event.isCancelled()}">
+            <a th:href="@{/event/{id}(id=${event.id})}" class="event-link">
+                <div class="event-wrapper">
+                    <img th:src="${event.getImagePaths().getFirst()}"  loading="lazy" alt="image" class="event-image" width="1024" height="1024"/>
+                    <div class="event-information">
+                        <h2 class="event-container-title" th:text="${event.name}">Event</h2>
+                        <div class="information-wrapper">
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/time.png}" alt="time-icon" class="event-icon" width="1024" height="1024"/>
+                                <p th:text="${event.time}">00:00</p>
+                                <p th:text="${event.getFEStartDateString()} + ' - ' + ${event.getFEEndDateString()}">00.00</p>
+                            </div>
+
+                            <div class="event-container-info" th:if="${event.location != null}">
+                                <img th:src="@{/img/icons/map.png}" alt="event-icon" class="event-icon" width="1024" height="1024"/>
+                                <p th:text="${event.location.getStreetCityNumber()}">Adresse</p>
+                            </div>
+                        </div>
+
+
+                        <h2 class="price" th:if="${event.getTypeString().equals('BIG_EVENT')}"
+                            th:text="${event.price.number.doubleValue() == event.price.number.intValue() ? #numbers.formatInteger(event.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(event.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                            >Preis</h2>
+                        <h2 class="price" th:if="${event.getTypeString().equals('SMALL_EVENT')}" th:text="#{event.onSite}">Vor Ort</h2>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{common/debug_footer :: time_controller(origin_type='events', origin_id='null')}"></footer>
+</body>
+</html>

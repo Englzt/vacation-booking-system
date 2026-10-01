@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+
+    <nav th:fragment="navbar">
+        <header class="header">
+            <div>
+                <img th:src="@{/img/icons/logo.svg}" alt="" class="show-logo">
+            </div>
+            <div class="header-top">
+                <a th:href="@{/houses}" th:classappend="${currentPath == '/houses'} ? 'active' : ''" class="nav-houses" th:text="#{nav.houses}">Houses</a>
+                <a th:href="@{/events}" th:classappend="${currentPath == '/events'} ? 'active' : ''" class="nav-events" th:text="#{nav.events}">Events</a>
+            </div>
+            <div class="line"></div>
+
+            <div class="header-bottom">
+                <a sec:authorize="hasRole('Admin')"  th:href="@{/users}" th:text="#{nav.admin.manageUsers}" th:classappend="${currentPath == '/users'} ? 'active' : ''">Users</a>
+
+                <a sec:authorize="hasRole('Landlord')" th:classappend="${currentPath == '/myHouses'} ? 'active' : ''"
+                   th:href="@{/myHouses}" th:text="#{nav.myhouses}">My Houses</a>
+                <a sec:authorize="hasRole('Landlord')"
+                   th:classappend="${currentPath == '/landlordrentals'} ? 'active' : ''" th:href="@{/landlordrentals}"
+                   th:text="#{nav.bookings}">Bookings</a>
+
+                <a sec:authorize="hasRole('EventStaff')" th:classappend="${currentPath == '/myEvents'} ? 'active' : ''"
+                   th:href="@{/myEvents}" th:text="#{nav.myevents}">My Events</a>
+                <a sec:authorize="hasRole('EventStaff')"
+                   th:classappend="${currentPath == '/eventstaffrentals'} ? 'active' : ''"
+                   th:href="@{/eventstaffrentals}" th:text="#{nav.bookings}">Bookings</a>
+
+                <a sec:authorize="hasRole('Customer')" th:classappend="${currentPath == '/tickets'} ? 'active' : ''" th:href="@{/tickets}" th:text="#{nav.tickets}">Tickets</a>
+                <a sec:authorize="hasRole('Customer')" th:classappend="${currentPath == '/customerRentals'} ? 'active' : ''" th:href="@{/customerrentals}" th:text="#{nav.bookings}">Bookings</a>
+
+            </div>
+            <div sec:authorize="isAuthenticated()" class="profile-button">
+                <a th:href="@{/logout}"><img th:src="@{/img/icons/logout.png}" alt="" class="logout-button" width="1024"
+                                             height="1024"/></a>
+                <a th:href="@{/messages}" ><img th:src="@{/img/icons/bell.png}" alt="" class="bell-icon" width="1024" height="1024"/>
+                    <p th:if="${unreadMessagesCount != null && unreadMessagesCount > 0}"
+                       th:text="${unreadMessagesCount}" class="notification-bubble"></p>
+                </a>
+
+                <a th:href="@{/profile}"> <img th:src="${@userController.getCurrentUserProfilePicture()}" alt=""
+                                               class="profile-pic"
+                                               width="1024" height="1024"/></a>
+            </div>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}"  th:text="#{nav.login}" class="profile-button">Login</a>
+
+            <img sec:authorize="hasRole('EventStaff')" th:src="@{/img/icons/disco-ball.png}" alt="" class="show-icon" width="1.5rem" height="1.5rem"/>
+            <img sec:authorize="hasRole('Landlord')" th:src="@{/img/icons/home-icon.png}" alt="" class="show-icon" width="1.5rem" height="1.5rem"/>
+            <img sec:authorize="hasRole('Admin')" th:src="@{/img/icons/persons.png}" alt="" class="show-icon" width="1.5rem" height="1.5rem"/>
+        </header>
+    </nav>
+    </body>
+</html>

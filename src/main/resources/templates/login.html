@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Login</title>
+    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+        <script th:inline="javascript">
+            window.location.href = "/";
+        </script>
+    </th:block>
+
+</head>
+<body class="login-body">
+<div layout:fragment="content" class="login-container">
+    <h1 th:text="#{login.title}" class="login-heading">Login</h1>
+    <h3 th:text="#{login.subheading}" class="login-subheading"></h3>
+    <form class="login-form" role="form" th:action="@{/login}" method="post">
+
+        <div class="field">
+            <label for="username" th:text="#{login.username}"></label>
+            <input class="form-input login-input" type="text" id="username" name="username" autofocus="autofocus"/> <br/>
+        </div>
+
+        <div class="field">
+            <label for="password" th:text="#{login.password}"></label><input class="form-input login-input" type="password" id="password" name="password"/> <br/>
+        </div>
+
+        <div th:if="${loginError}" class="error-message">
+            <p th:text="${loginError}"></p>
+        </div>
+
+        <div class="login-bottom-wrapper">
+            <div class="login-no-acc-container">
+                <p class="no-account" th:text="#{login.hasNoAccount}">Don’t have an account yet?</p><!--''-->
+                <a href="/register" class="refer-to-other" th:text="#{nav.register}">Register</a>
+            </div>
+
+            <button type="submit" th:text="#{login.login}" class="login-button">Log in</button>
+        </div>
+
+    </form>
+
+</div>
+</body>
+</html>

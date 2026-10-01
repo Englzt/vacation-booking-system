@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{booking.title}">Manage Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="main-content">
+    <div style="display: flex; align-items: center; gap: 3px;" th:if="${!noBookings}">
+        <p th:text="#{booking.infotext.history_1}">Past and canceled bookings can be viewed on the history page of each
+            house</p><a class="external_link" th:href="@{/myHouses}" th:text="#{booking.infotext.history_2}">here</a>
+        <p th:text="#{booking.infotext.history_3}"></p>
+    </div>
+    <div class="no-booking-container" th:if="${noBookings}">
+        <img alt="" class="filler-image" height="1024" th:src="@{/img/emptySpace/house-cozy.png}" width="1024"/>
+        <h1 class="no-bookings" th:text="#{bookings.landlord-empty_1}">There are currently no Bookings</h1>
+        <p class="cta-no-bookings" th:text="#{bookings.landlord-empty_2}">for any of your houses</p>
+    </div>
+
+    <div th:if="${!noBookings}">
+        <div th:each="list, iterStat : ${bookings}">
+            <div th:if="${!list.isEmpty()}">
+                <div th:switch="${iterStat.index}">
+                    <div th:case="0">
+                        <h1 class="standard-header" th:text="#{booking.header.open}">Pending Approval</h1>
+                        <p class="infoText" th:text="#{booking.infotext.open}">Reservation requests from events or
+                            customers.</p>
+                        <p class="error-message" th:text="${error}">Error</p>
+                    </div>
+                    <div th:case="1">
+                        <h1 class="standard-header" th:text="#{booking.header.reserved}">Confirmed Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.reserved}">Confirmed bookings that are waiting
+                            for the customer to pay the deposit.</p>
+                    </div>
+                    <div th:case="2">
+                        <h1 class="standard-header" th:text="#{booking.header.paid}">Paid Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.paid}">Fully paid bookings.</p>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th th:text="#{booking.table.house}" width="20%">House</th>
+                        <th th:text="#{booking.table.address}" width="25%">Address</th>
+                        <th th:text="#{booking.table.type}" width="8%">Type</th>
+                        <th th:text="#{booking.table.details}" width="7%">Details</th>
+                        <th th:text="#{booking.table.time}" width="20%">Time</th>
+                        <th th:text="#{booking.table.actions}">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${list}">
+                        <td><a class="external_link"
+                               th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"
+                               th:text="${entry.key.getRentalInformation().getHouse().getName()}">Link</a>
+                        </td>
+                        <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getStreetCityNumber()}"></td>
+
+
+                        <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                                            (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                                            (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                                            (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                                            (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                            th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                                     (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönliche Nutzung' :
+                                     (entry.key.getRentalType().toString() == 'TICKET' ? (entry.key.getTickets() == 1 ? 'Ticket' : 'Tickets') :
+                                     (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                                     (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                        </td>
+
+
+                        <td>
+                            <p th:if="${entry.key.isTicketBooking()}"
+                               th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                            <a class="external_link"
+                               th:href="@{/bookings/{id}(id=${entry.key.id})}"
+                               th:text="${entry.value}">Link</a>
+                        </td>
+                        <td th:text="${entry.key.getRentalInformation().getStartDateString()
+                            + ' - ' + entry.key.getRentalInformation().getEndDateString()
+                            + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()
+                            + ' days)'}"></td>
+                        <td>
+                            <div class="bookings-options-wrapper">
+                                <div
+                                     th:if="${entry.key.status.toString().equals('OPEN')}">
+                                    <form method="post" th:action="@{/approve}">
+                                        <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                        <input class="approve_button" th:value="#{booking.actions.approve}"
+                                               type="submit"
+                                               value="Approve">
+                                    </form>
+                                </div>
+                                <div style="display: inline-block; "
+                                     th:if="${entry.key.status.toString().equals('RESERVED') && entry.key.getRentalType().toString().equals('PERSONAL')}">
+                                    <form method="post"
+                                          th:action="@{/confirmpayment}">
+                                        <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                        <input class="approve_button" th:value="#{booking.actions.confirm_payment}"
+                                               type="submit"
+                                               value="Confirm Payment">
+                                    </form>
+                                </div>
+                                <div
+                                     th:if="${entry.key.status.toString().equals('RESERVED') && entry.key.getRentalType().toString().equals('PERSONAL')}">
+                                    <form method="post" style="display: inline-block; "
+                                          th:action="@{/sendlatenotice}">
+                                        <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                        <input class="warn_button" th:value="#{booking.actions.notice}" type="submit"
+                                               value="Send Notice">
+                                    </form>
+                                </div>
+                                <div
+                                     th:if="${!entry.key.status.toString().equals('OPEN')}">
+                                    <form method="post" th:action="@{/cancel}">
+                                        <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                        <input name="origin" type="hidden" value="landlordrentals">
+                                        <input class="decline_button" th:value="#{booking.actions.cancel}" type="submit"
+                                               value="Decline">
+                                    </form>
+                                </div>
+
+                                <div
+                                        th:if="${entry.key.status.toString().equals('OPEN')}">
+                                    <form method="post" th:action="@{/decline}">
+                                        <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                        <input name="origin" type="hidden" value="landlordrentals">
+                                        <input class="decline_button" th:value="#{booking.actions.decline}"
+                                               type="submit"
+                                               value="Decline">
+                                    </form>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{common/debug_footer :: time_controller(origin_type='landlordrentals', origin_id='null')}"></footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="'Delete: ' + ${house.name}"></title>
+</head>
+<body>
+
+    <nav th:insert="~{header :: navbar}"></nav>
+
+    <div class="del-content">
+        <h1 class="standard-header" th:text="#{myHouse.delete.confirm(${house.name})}" style="text-align: center"></h1>
+        <p class="standard-sub" th:text="#{myHouse.delete.info}" style="text-align: center">Diese Aktion kann nicht
+            rückgängig gemacht werden.</p>
+        <img th:src="${house.getImagePaths().getFirst()}" loading="lazy" alt="image" class="delete-image" width="1024"
+             height="1024"/>
+
+        <div class="delete-option-wrapper">
+            <form th:action="@{/myHouses}" method="get">
+                <button class="approve_button" th:text="#{button.cancel}">Abbrechen</button>
+            </form>
+
+            <form method="post" th:action="@{/myHouses/delete/{id}(id=${house.id})}">
+                <button class="silent-del" type="submit" th:text="#{button.delete}">Löschen</button>
+                <br/>
+            </form>
+        </div>
+
+
+    </div>
+
+</body>
+</html>

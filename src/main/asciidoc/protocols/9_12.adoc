@@ -1,0 +1,47 @@
+= Protokoll Gruppe 2
+
+Treffen am XX.XX.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:20 Uhr +
+Ende:     16:40 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+
+- alle
+- tevin dc
+- sokar dc
+
+== Bemerkungen
+kleines feature hinzugefügt
+sonst läuft alles gut
+müssen wir nen button hinzufügen, wo dann einen tag vorgespult wird?
+wird dann alles alles ordnungsgemäß gemacht
+Auffäligkeiten:
+- booking klasse hat ne referenz auf ne eventId, warum ist das notwendig?
+- wieso kann man das nicht direkt über die orderlines hinzufügen
+es wird am design gearbeitet
+tests haben sich verbessert -> zeit halbiert
+
+
+
+
+== Retrospektive des letzten Sprints
+mit den events sieht es nen bisschen besser aus wenn an da ein ticket buchen will mit dem haus
+events werden nur bei häusern angezeigt, wenn die bestätigt sind +
+admin kann jetzt user acc löschen
+wird nachgereicht
+
+noch kleinere verbesserungen/änderungen die nächste woche
+
+
+
+== Aktueller Stand
+wird nachgereicht
+
+

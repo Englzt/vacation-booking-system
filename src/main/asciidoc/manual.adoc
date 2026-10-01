@@ -1,0 +1,56 @@
+= Hinweisheft Gruppe 02 SWT
+
+== Button zur Datumsauswahl
+* Ein Button, um das Datum vorzuspulen, befindet sich im Footer auf den Seiten *Event*, *Haus* und *Buchung*.
+
+== Accounts
+[cols="3,3,3,3", options="header"]
+|===
+| Username | Passwort | Aktiv | Rolle
+| Landlord | 123 | ja | Landlord
+| EventStaff | 123 | ja | EventStaff
+| User | 123 | ja | User
+| Admin | 123 | ja | Admin
+| myLandlord | 123 | nein | Landlord
+| myLandlord1 | 123 | nein | Landlord
+| myLandlord2 | 123 | nein | Landlord
+| myEventStaff | 123 | nein | EventStaff
+|===
+
+=== Account-Aktivierung
+* Accounts können durch den *Admin* aktiviert werden.
+* *Customer*-Accounts sind standardmäßig aktiviert.
+
+== Buchungsarten
+* *PERSONAL*: Ein Customer bucht ein Haus.
+* *EVENT*: Ein großes Event bucht ein Haus für einen bestimmten Zeitraum. (Tickets sind kaufbar.)
+* *TICKET*: Ein Customer bucht ein Haus während eines Eventzeitraums und muss Tickets dazu buchen.
+* *ADVERTISEMENT*: Ein kleines Event wirbt für einen bestimmten Zeitraum auf der Haus-Seite.
+
+== Buchungsabläufe
+
+=== Buchungsablauf (Personal)
+* User erstellt eine Buchung: `STATUS OPEN`
+* Landlord nimmt die Buchung an und bestätigt gleichzeitig die Anzahlung: `STATUS RESERVED`
+* Landlord kann Mahnungen verschicken und Zahlungseingänge bestätigen: `STATUS PAID`
+* Buchung läuft ab und ist vollständig bezahlt: `STATUS COMPLETED`
+* Buchung kann storniert werden, solange der Buchungszeitraum noch nicht gestartet hat.
+Rückerstattungsfrist für die Anzahlung beträgt 7 Tage: `STATUS CANCELED`
+
+=== Buchungsablauf (Event)
+* EventStaff erstellt ein großes Event und fragt Häuser im Umkreis von bis zu 20 km an: `STATUS OPEN`
+* Landlord bestätigt die Anfrage: `STATUS RESERVED`
+* Event ist vorbei: `STATUS COMPLETED`
+* Event-Buchung kann storniert werden, solange der Eventzeitraum noch nicht gestartet hat: `STATUS CANCELED`
+
+=== Buchungsablauf (Ticket)
+* Customer bucht ein Haus während des Eventzeitraums und wählt die Anzahl der Tickets, die sofort bezahlt werden: `STATUS PAID`
+* Event ist vorbei: `STATUS COMPLETED`
+* Einzelne Tickets können erstattet werden, aber mindestens ein Ticket muss behalten werden.
+Andernfalls wird die gesamte Buchung storniert: `STATUS CANCELED`
+
+=== Buchungsablauf (Advertisement)
+* EventStaff erstellt ein kleines Event, Häuser im gewählten Umkreis werden angefragt: `STATUS OPEN`
+* Landlord nimmt die Buchung an, sie wird auf der Haus-Seite angezeigt: `STATUS PAID`
+* Eventzeitraum ist vorbei: `STATUS COMPLETED`
+* Buchung kann jederzeit storniert werden, solange der Zeitraum noch nicht gestartet hat: `STATUS CANCELED`

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>403 - Zugriff verweigert</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="no-booking-container">
+    <img th:src="@{/img/emptySpace/blocked.png}" alt="" class="filler-image" width="1024" height="1024"/>
+    <h1 class="error-code">403</h1>
+    <h1 class="no-bookings" th:text="#{server.error-header-403}">Zugriff verweigert</h1>
+    <p class="cta-no-bookings" th:text="#{server.error-message-403}">Sie haben keine Berechtigung, auf diese Seite zuzugreifen.</p>
+</div>
+</body>
+</html>

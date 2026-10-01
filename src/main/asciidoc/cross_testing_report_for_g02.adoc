@@ -1,0 +1,126 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe: 03
+__Anwendung von Gruppe: 02
+
+== Tested System
+Welche Aufgabe/Problemstellung löst die Anwendung.
+
+=== Login
+* provided correct credentials are put in, login is succesfull; otherwise ann error is displayed
+* deactivated accounts cannot log in and receive an error message informing about deactivated status
+* Passwords do not meet safety standards (missing uppercase, lowercase, numbers, and symbols).
+
+=== Nutzerverwaltung
+==== working
+* provides a list of all existing users, axcluding the admin
+* allows to de-/activate existing accounts
+* trying to gain access to Nutzerverwaltung by directly calling the html returns access denied if the user is no admin
+* deactivated accounts have active bookings deleted
+
+==== not working
+* user details not accessable -  clicking on details of any user account does nothing
+
+=== Konto
+==== working
+* logout button allows succesfull logout
+* shows account details (name, email)
+* since uri does not include user_ids no way to adress any other profile than the currently logged in one
+
+=== Registrierung
+==== working
+* registering with valid input creates a new user account
+* invalid credentials include already existing user credentials and wrong patterns for mails and passowrds
+* passwords require at leat one upper case letter and hava minimum length of 3
+* mails have to be of pattern [name]@[domain]
+* invaid inputs return informative error messages pertaining the specific error (except password)
+* users have to name a rol the account should have - EventStaff and Landlord accounts are deactivated by default
+* new user accounts are activated by default
+
+==== not working
+* wrong password patterns all cause the same error messsage "Das Passwort muss mindestens einen Grossbuchstaben enthalten!", regardless of how the pattern is violated
+
+== Event Management
+
+=== Small Events
+* Creating, modifying, and deleting small events works as expected.
+* Date Input: 
+** Users are asked to input a future date, but valid dates sometimes trigger unclear error messages.
+** Update: Date validation now works, but the Forward button complicates understanding valid dates.
+
+=== Big Events
+* Creating, modifying, and deleting big events works for the most part
+* Landlord acceptance and rejection of events works correctly.
+
+=== Booking Events:
+* Booking events alongside houses works as intended.
+* Only big events should be bookable, which functions as expected.
+
+==== General issues:
+* The Forward button causes confusion:
+** It advances the timeline, but users are not informed of the exact date they are forwarded to, making it hard to determine valid dates.
+** It disrupts functionality across the system, and the purpose of this feature is unclear.
+* While creating or modifying an Event, big or small, the interface suggests four pictures can be uploaded, but only one can actually be uploaded.
+** Label: “Bilder verbleibend: 4” is misleading.
+* When combining events with houses through the radius feature, the created event doesn’t appear under the linked house.
+* Ticket count cannot be reduced when modifying events.
+* When entering prices under 1€ (e.g., 50 cents), the value is not visible on the event card or details page.
+
+==== Calendar and Map:
+* Both features are well-designed and function perfectly.
+
+=== View House Details
+* everyone can see the datailed description of the house ✓
+
+=== Add House
+* a Landlord can add a house ✓
+* an error message appears if not everything is filled out (except image) ✓
+
+=== Edit House
+* Landlord can edit their own house ✓
+* existing info is automatically filled in ✓
+
+=== Delete House
+* Landlord can delete their own house ✓
+* currently reserved or booked houses can't be deleted ✓
+
+=== View History
+* Landlord can see all past and current bookings / reservations ✓
+
+=== Manage Images
+* a Landlord can add one image when creating a house ✓
+* has to edit house every time they want to add one image
+* Landlord can delete one or more images from a house ✓
+
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+| http://localhost:8080/myHouses/edit/7843fe42-6723-4ed3-9773-812c98422b67? | delete image | If you create a house without an image, it's created with a standard image. When you edit the house later you can't delete that standard image. If you tab on X you just get redirected to the "meine Häuser" page | http://localhost:8080/myHouses
+|===
+
+== Sonstiges
+* missing functionality to change user data like mail or password
+* register and login page accessible by logged in user if the page is requested manually
+
+* when you edit a house and change something beside the images first and then delete an image, the change is reset and you have to type in the change again 
+* there's a restriction that the amount of people must be at least 1, but there can be 0 beds, so maybe it would be better to change that to at least 1 too
+* why is there a max limit of 10 beds? and why is that the only thing with a maximum restriction?
+* why can you only go forward and not backwards? ('cause if you accidentally go forward to much you can't go backwards to correct that mistake)
+* it's great that you have a set frame for the address, so it can be seen on the map, but if you type in a none existent country or city it (obviously) doesn't point on a location and if just the street doesn't exist, it just points at a random location in the city --> so maybe it's better to make sure the address actually exists
+
+* Optik der Anwendung
+* Fehlende Features
+* Interaktion mit der Anwendung (Usability)
+
+== Verbesserungsvorschläge
+* it would be helpful to have a small change to the news tab, if there are unread items
+* having the logout button in the navigation instead of Konto would be easier to access
+
+* maybe change the name of the button when you save the changes of a house from "Bearbeiten" to "Speichern"
+* it may be better to add the name of the landlord in the house details, so a customer knows who the house belongs to
+* maybe make a note or something that the first picture uploaded will be to one you can see in the "Häuser" page, since you can't change the order of the pictures
+
+* Was kann noch weiter verbessert werden?

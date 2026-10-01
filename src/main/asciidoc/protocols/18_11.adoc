@@ -1,0 +1,82 @@
+= Protokoll Gruppe 2
+
+Treffen am 18.11.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:20 Uhr +
+Ende:     17:10 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+- Erik (Discord weil krank)
+- Robert B
+- Sokar
+- Francis
+- Anthony
+- Tevin
+- Christoph
+- Robert T
+- Titus
+
+== Bemerkungen
+- keine sonstigen Bemerkungen
+- alle haben ihre Prototypen entwickelt und vorgestellt
+- kleinere nicht nennenswerte Fehler (z.b. fehlendes html attribut)
+- "sieht sehr gut aus, denke ich kann man gut drauf aufbauen" - Titus
+- bei den kleinen events, nicht immer kostenlos (dort dann was einzelnes anderes hinschreiben )
+- man hat vorhandene salespoint funktionalität nochmal implementiert, aber sonst gut
+- Diagramme sind sehr gut
+- Dokumentation ist sehr gut
+- "sehen top aus" - Titus
+- kleinigkeit bei event -> im klassendiagramm hat man eventcontroller direkte assoziation zum repo (soll eigentlich über service gehen)
+- In der User klasse, da gibt es ne methode die heißt validation, nimmt usermanagment entgegen -> frage der zustädnigkeit
+-> macht man sehr einfaches objekt abhängig von der service klasse abhängig -> nicht so gut
+-> lieber in der service klasse ne validate methode machen -> der übergibt man es dann
+- Im protoypen direkt -> nicht im diagramm
+-> also lieber einfach die methode direkt in die form klasse
+- was ist das für nen Vortrag
+- aktuellen Stand vorstellen
+- gemergedter protoyp
+- aktuellen stand vorstellen
+- powerpoint präsentation
+- auf einem branch vorführen
+- jetzt fangen die meilensteine an
+- immer die sonarqube analyse muss passen
+    - immer die tests müssen mindestens 60% haben
+- sonarqube nur im uninetz
+- sonarqube überprüft nur main -> dh zur abgabe muss alles auf den main branch
+- entwicklung einzeler features auf eigenem branch -> tests schreiben, bevor man sie implementier (hust hust immer)
+- wieder 2 wochen bis zum nächsten meilensetin
+- basisfunktionalität -> alle entitys anlegen können -> quasi was wir jetzt shcon haben nur zusammengemerged
+- robert b macht sich unbeliebt
+
+
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#15     |Dokumentation 3.     | ... |       Francis, Rober B.     | DONE
+|#17     |Dokumentation  4.3 / 4.4   | ... |       Anthony, Sokar     | DONE
+|#14     |Dokumentation   1. /2.  | ... | Engltz, Erik     | DONE
+|#16     |Dokumentation  4.1 / 4.2   | ... | Christoph, Tevin     | DONE
+|===
+
+== Aktueller Stand
+Anmerkungen und Kritik zum aktuellen Stand der Software, den Diagrammen und den
+Dokumenten.
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===

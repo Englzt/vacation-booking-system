@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.bookHouseForEvent}">Events zu Häuser buchen</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content">
+    <h1 class="standard-header" th:text="#{event.houseReserved}">Haus für Event reserviert!</h1><br/>
+
+    <form method="get" th:action="@{/rent/bookingConfirmation}">
+        <table class="table" th:each="event : ${overlappingEvents}">
+            <thead>
+            <tr>
+                <th th:text="#{event.name}" style="width: 20%">Eventname</th>
+                <th th:text="#{event.description}">Beschreibung</th>
+                <th th:text="#{event.address}">Adresse</th>
+                <th th:text="#{event.price}">Preis</th>
+                <th th:text="#{event.ticketAmount} + ' (max. ' + ${(house.maxPerson < event.tickets ? house.maxPerson : event.tickets)} + ')'">
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${event.name}">Eventname</td>
+                <td th:text="${event.description}">Beschreibung</td>
+                <td th:text="${event.location.getAddressString()}">Adresse</td>
+                <td th:text="${event.price}">Preis</td>
+                <td><input min="1" name="bookedTickets" step="1" value="1" th:max="${house.maxPerson < event.tickets ? house.maxPerson : event.tickets}"
+                           type="number"></td>
+            </tr>
+            </tbody>
+            <input id="eventId" name="eventId" th:value="${event.id}" type="hidden">
+        </table>
+        <div>
+            <input name="houseId" th:value="${houseId}" type="hidden">
+            <input name="intervalStart" th:value="${intervalStart}" type="hidden">
+            <input name="intervalEnd" th:value="${intervalEnd}" type="hidden">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; flex-direction: column; width: 12rem; margin-left: auto">
+            <p class="infoText" th:text="#{event.totalPrice}" style="text-align: right; margin-bottom: 0"></p>
+            <p class="infoText" th:text=" ${totalPrice}" style="text-align: right; margin-bottom: 0"></p>
+            <p th:text=" #{event.houseRentNotIncluded}"
+               style="color: #4b4b4b; font-size: 0.75rem; text-align: center; margin-bottom: 0.25rem"></p>
+            <button class="approve_button" th:text="#{event.bookTickets}" type="submit"></button>
+        </div>
+    </form>
+    <form method="get" th:action="@{/house/{id}(id = ${houseId})}">
+        <button class="silent-del" type="submit" th:text="#{event.goBack}">Zurück</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/calendar.css}">
+    <link href="https://www.openstreetmap.org" rel="preconnect">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title th:text="#{event.eventDetails}">Event Details</title>
+
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="event-img-container">
+    <img th:src="${event.getImagePaths().getFirst()}" alt="event" class="event-header-image" width="1024" height="1024"/>
+</div>
+<div class="event-content">
+    <div class="desc-reserve-wrapper-event">
+        <div class="house-description">
+            <h1 th:text="${event.name}" class="event-name">Event Name</h1>
+            <div th:text="${event.description}"></div>
+            <div th:if="${event.getTypeString().equals('SMALL_EVENT')}">
+                <div th:switch="${event.getRecurrencePattern().toString()}">
+                    <p th:case="NONE" th:text="#{event.noRecurrence}">Das Event wiederholt sich nicht.</p>
+                    <p th:case="WEEKLY" th:text="#{event.repeatsHow} + ' ' + #{event.weekly} + ' ' + #{event.takesPlace}">Das Event findet <b>wöchentlich</b> statt.</p>
+                    <p th:case="MONTHLY" th:text="#{event.repeatsHow} + ' ' + #{event.monthly} + ' ' + #{event.takesPlace}">Das Event findet <b>monatlich</b> statt.</p>
+                    <p th:case="YEARLY" th:text="#{event.repeatsHow} + ' ' + #{event.yearly} + ' ' + #{event.takesPlace}">Das Event findet <b>jährlich</b> statt.</p>
+                </div>
+            </div>
+
+            <h2 th:text="${event.location.getStreetCityNumber()}" class="location-headline"></h2>
+
+
+
+            <div id="map"
+                 style="border: 1px solid #717171; border-radius: 1rem; height: 500px;"></div>
+            <div id="infoContainer" class="infoContainer" th:if="${event.getType().toString().equals('BIG_EVENT')}">
+                <p id="infoText" style="margin: 0;">Klicke auf einen Marker, um mehr Informationen anzuzeigen.</p>
+            </div>
+
+        </div>
+
+        <div class="reservation-container" >
+            <div class="event-calender-wrapper">
+                <div class="calendar-controls">
+                    <button class="next-button" id="prevMonth" type="button">◀</button>
+                    <span id="monthYear"></span>
+                    <button class="next-button" id="nextMonth" type="button">▶</button>
+                </div>
+                <div class="infobox" id="infobox">Infotext</div>
+                <div class="calendar" id="calendar"></div>
+                <div class="error-message" th:if="${dateError != null}" th:text="${dateError}"></div>
+            </div>
+            <div class="time-date-wrapper">
+                <p th:text="${event.time}" class="event-time"></p>
+                <p th:text="${event.getStartDateString() + '-' + event.getEndDateString()}" class="event-date"></p>
+            </div>
+
+            <p th:text="${(event.getInterval().getDuration().toDays()+1) + ' Day' + (event.getInterval().getDuration().toDays() > 1 ? 's'  : '')}"
+               class="event-days"></p>
+
+            <p th:if="${event.getTypeString().equals('BIG_EVENT')}"
+               th:text="${event.price.number.doubleValue() == event.price.number.intValue() ? #numbers.formatInteger(event.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(event.price.number, 1, 'NONE', 2, 'POINT') + '€'}"
+               class="event-price"
+            ></p>
+            <p th:if="${event.getTypeString().equals('SMALL_EVENT')}" class="payment-at-location" th:text="#{event.paymentOnSite}">Bezahlung vor Ort</p>
+        </div>
+    </div>
+
+
+    <div th:if="${!bookedHouses.isEmpty()}">
+        <h2 th:text="#{event.participatingHouses}" class="location-headline">Teilnehmende Häuser</h2>
+
+        <div class="event-list">
+            <div class="house-container" th:each="house : ${bookedHouses}">
+
+                <form method="get" th:action="@{/house/{id}(id=${house.id})}" class="house-form">
+                    <input name="eventStartDate" id="eventInterval" type="hidden" th:value="${event.getInterval().getStart()}">
+                    <input type="hidden" name="eventEndDate" id="eventEndDate" th:value="${event.getInterval().getEnd()}">
+                    <button type="submit" class="house-wrapper-button">
+                        <img  th:src="${house.getImagePaths().get(0)}" alt="image" class="house-image" width="1024" height="1024"/>
+                        <div class="house-information">
+                            <h2 class="house-container-title" th:text="${house.name}"></h2>
+                            <div class="house-bottom-container">
+                                <p th:text="${house.location.getStreetCity()}"></p>
+                                <div class="moon-price">
+                                    <img th:src="@{/img/icons/moon.png}" alt="map-icon" class="moon-icon" width="1024" height="1024"/>
+                                    <h2 class="house-price"
+                                        th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                                        ></h2>
+                                </div>
+
+                            </div>
+                        </div>
+
+                     </button>
+                    <div class="gradient"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div th:insert="~{common/comments :: add_comment(product=${event}, type='Event')}"></div>
+    <div th:insert="~{common/comments :: show_comments(product=${event})}"></div>
+</div>
+
+<footer th:insert="~{common/debug_footer :: time_controller(origin_type='eventDetails', origin_id=${event.id})}"></footer>
+
+</body>
+
+
+<script th:inline="javascript">
+</script>
+<script th:inline="javascript">
+    let monthNames = [[${#messages.msg('calendar.months')}]].split(",");
+    let daysOfWeek = [[${#messages.msg('calendar.weekdays')}]].split(",");
+
+
+    let dates = [[${dates}]];
+
+    let todayRaw = [[${today}]];
+
+    const startDateStr = [[${event.getInterval().getStart()}]];
+    const endDateStr = [[${event.getInterval().getEnd()}]];
+</script>
+
+
+<script th:inline="javascript" th:src="@{/js/event-calendar.js}"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script th:inline="javascript">
+    // copied from the web and multimedia engineering task 3 (robert bing and anthony lanzenberger)
+    let eventLat = [[${event.location.getLatitude()}]];
+    let eventLon = [[${event.location.getLongitude()}]];
+</script>
+
+<script th:inline="javascript">
+    let houses = /*[[${simplifiedHouses}]]*/ [];
+
+
+    const map = L.map('map').setView([eventLat, eventLon], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+    }).addTo(map);
+
+    const eventIcon = L.icon({
+        iconUrl: '/img/icons/event-pin.png',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
+    });
+
+    const houseIcon = L.icon({
+        iconUrl: '/img/icons/house.png',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
+    });
+
+    const infoText = document.getElementById('infoText');
+
+    houses.forEach(h => {
+        console.log(h)
+        const marker = L.marker([h.location.latitude, h.location.longitude], { icon: houseIcon }).addTo(map);
+        marker.on('click', () => {
+            infoText.innerHTML = `
+        <b>${h.name}</b><br>
+        Adresse: ${h.location.streetCityNumber}<br>
+        Beschreibung: ${h.description}<br>
+        Max. Personen: ${h.maxPerson}<br>
+        <form method="get" action="/house/${h.id}">
+            <input name="eventStartDate" id="eventInterval" type="hidden" value="${startDateStr}">
+            <input type="hidden" name="eventEndDate" id="eventEndDate" value="${endDateStr}">
+            <button type="submit" class="approve_button">Im Eventzeitraum buchen</button>
+        </form>
+        `;
+        });
+    });
+
+    const eventMarker = L.marker([eventLat, eventLon], { icon: eventIcon }).addTo(map);
+
+</script>
+</html>

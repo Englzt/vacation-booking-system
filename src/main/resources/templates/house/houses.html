@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Haus Katalog</title>
+
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="big-event-container">
+    <h1 class="standard-header" th:text="#{menu.houseCatalog}">Local Vacation Homes</h1>
+    <div class="event-list">
+        <div class="house-container" th:each="house : ${allHouses}">
+            <a th:href="@{/house/{id}(id=${house['id']})}" class="event-link">
+                <div class="house-wrapper">
+                    <img  th:src="${house.getImagePaths().get(0)}" alt="image" class="house-image" width="1024" height="1024"/>
+                    <div class="house-information">
+                        <h2 class="house-container-title" th:text="${house.name}"></h2>
+                        <div class="house-bottom-container">
+                            <p th:text="${house.location.getStreetCity()}"></p>
+                            <div class="moon-price">
+                                <img th:src="@{/img/icons/moon.png}" alt="map-icon" class="moon-icon" width="1024" height="1024"/>
+                                <h2 class="house-price"
+                                    th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                                </h2>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="gradient"></div>
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

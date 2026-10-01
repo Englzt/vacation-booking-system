@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="time_controller(origin_type, origin_id)" style="margin-top: 1rem">
+
+    <div class="line"></div>
+    <form th:action="@{/forward}" method="get" class="skip-form">
+        <div class="input-container">
+            <p class="plus-input">+</p>
+            <label for="amount"></label><input id="amount" class="day-select" type="number" name="amount" value="1"
+                                               min="1">
+            <p class="day-p" th:text="#{date.days}">Day</p>
+        </div>
+
+        <input type="hidden" name="origin_type" th:value="${origin_type}">
+            <input type="hidden" name="origin_id" th:value="${origin_id}">
+
+        <input type="image" th:src="@{/img/icons/zeit.png}" name="skip" alt="skip" class="skip submit"
+               style="border-radius: 0.5rem; margin: 0; padding: 0.25rem">
+        </form>
+</div>
+</body>
+</html>

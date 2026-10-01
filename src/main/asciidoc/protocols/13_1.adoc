@@ -1,0 +1,50 @@
+= Protokoll Gruppe 2
+
+Treffen am 13.01.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:20 Uhr +
+Ende:     16:40 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+alle da
+
+== Bemerkungen
+- noch verschiedene Bewertungsbögen ausfüllen
+- Developer Documentation updaten
+- Website testen und letzte Fehler finden
+- JavaDoc kontrollieren
+
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+Website ist fertig, nochmal nach Fehlern suchen. Developer Documentation noch auf altem Stand Diagramm neu machen und
+andere Text/Tabellen kontrollieren/erweitern.
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===

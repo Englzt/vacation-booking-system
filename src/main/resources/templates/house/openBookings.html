@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{myHouse.statistic.Title}">Offene Buchungen</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="main-content">
+
+    <div th:if="${currentBookings.isEmpty() && bookingsReserved.isEmpty() && eventBookings.isEmpty() && bookingsOpen.isEmpty()}" class="no-booking-container">
+        <img th:src="@{/img/emptySpace/house-cozy.png}" alt="" class="filler-image" width="1024" height="1024"/>
+        <h1 class="no-bookings" th:text="#{myHouse.statistic.NoBookings}">There are no Bookings</h1>
+        <p class="cta-no-bookings" th:text="#{myHouse.statistic.NoBookings2}">for this house</p>
+    </div>
+
+    <div th:if="${!bookingsOpen.isEmpty()}">
+        <h1 th:text="#{myHouse.statistic.PendingApproval}">Pending Approval</h1>
+        <p class="standard-sub" th:text="#{myHouse.statistic.PendingApprovalInfo}">Buchungen die noch bestaetigt werden
+            muessen</p>
+        <table>
+            <thead>
+            <tr>
+                <th width="20%" th:text="#{booking.table.house}">House</th>
+                <th width="15%" th:text="#{booking.table.address}">Address</th>
+                <th width="8%" th:text="#{booking.table.type}">Type</th>
+                <th width="10%" th:text="#{booking.table.details}">Details</th>
+                <th th:text="#{booking.table.time}">Time</th>
+                <th th:text="#{booking.table.actions}">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${bookingsOpen}">
+                <td><a th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"  th:text="${entry.key.getRentalInformation().getHouse().getName()}" class="external_link">Link</a></td>
+                <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getStreetCityNumber()}"></td>
+
+
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                    th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                     (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+                     (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+                     (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                     (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                </td>
+
+
+                <td th:if="${entry.key.isEventBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isPersonalBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isTicketBooking()}">
+                    <p th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                </td>
+                <td th:text="${entry.key.getRentalInformation().getStartDateString() + ' - ' + entry.key.getRentalInformation().getEndDateString() + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></td>
+                <td>
+                    <form th:action="@{/approve}" method="post" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="booking_id" th:value="${entry.key.getId()}">
+                        <input class="approve_button" type="submit" value="Approve">
+                    </form>
+                    <form th:action="@{/decline}" method="post" style="display: flex; gap: 1rem; align-items: center">
+                        <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="height: 1.25rem">
+                            <img alt="" class="edit-icon" height="1024" th:src="@{/img/icons/information.png}"
+                                 width="1024"/>
+                        </a>
+                        <input type="hidden" name="booking_id" th:value="${entry.key.getId()}">
+                        <input type="hidden" name="origin" th:value="'openBookings/' + ${houseId}">
+                        <input class="decline_button" type="submit" value="Decline">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${!bookingsReserved.isEmpty()}">
+        <h1 th:text="#{myHouse.statistic.reservations.Title}">Reservierungen</h1>
+        <p class="standard-sub" th:text="#{myHouse.statistic.reservations.infoText}">Confirmed bookings that are waiting
+            for the customer to pay the deposit.</p>
+        <table>
+            <thead>
+            <tr>
+                <th width="20%" th:text="#{booking.table.house}">House</th>
+                <th width="15%" th:text="#{booking.table.address}">Address</th>
+                <th width="8%" th:text="#{booking.table.type}">Type</th>
+                <th width="10%" th:text="#{booking.table.details}">Details</th>
+                <th th:text="#{booking.table.time}">Time</th>
+                <th th:text="#{booking.table.actions}">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${bookingsReserved}">
+                <td><a th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"  th:text="${entry.key.getRentalInformation().getHouse().getName()}" class="external_link">Link</a></td>
+                <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getStreetCityNumber()}"></td>
+
+
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                    th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                     (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+                     (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+                     (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                     (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                </td>
+
+
+                <td th:if="${entry.key.isEventBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isPersonalBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isTicketBooking()}">
+                    <p th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                </td>
+                <td th:text="${entry.key.getRentalInformation().getStartDateString() + ' - ' + entry.key.getRentalInformation().getEndDateString() + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></td>
+                <td>
+                    <form th:action="@{/cancel}" method="post" style="display: flex; gap: 1rem; align-items: center">
+                        <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="height: 1.25rem">
+                            <img alt="" class="edit-icon" height="1024" th:src="@{/img/icons/information.png}"
+                                 width="1024"/>
+                        </a>
+                        <input type="hidden" name="booking_id" th:value="${entry.key.getId()}">
+                        <input type="hidden" name="origin" th:value="'openBookings/' + ${houseId}">
+                        <input class="decline_button" type="submit" value="Cancel">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div th:if="${!currentBookings.isEmpty()}">
+        <h1 th:text="#{myHouse.statistic.currentBookings.Title}">Derzeitige Buchungen</h1>
+        <p class="standard-sub" th:text="#{myHouse.statistic.currentBookings.infoText}">Derzeitige aktive Buchungen von
+            Kunden.</p>
+        <table>
+            <thead>
+            <tr>
+                <th width="20%" th:text="#{booking.table.house}">House</th>
+                <th width="5%" th:text="#{booking.table.address}">Address</th>
+                <th width="8%" th:text="#{booking.table.link}">Link</th>
+                <th width="8%" th:text="#{booking.table.type}">Type</th>
+                <th width="10%" th:text="#{booking.table.details}">Details</th>
+                <th th:text="#{booking.table.time}">Time</th>
+                <th th:text="#{booking.table.actions}">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${currentBookings}">
+                <td><a th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"  th:text="${entry.key.getRentalInformation().getHouse().getName()}" class="external_link">Link</a></td>
+                <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getStreetCityNumber()}"></td>
+                <td>
+                    <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="height: 1.25rem">
+                        <img alt="" class="edit-icon" height="1024" th:src="@{/img/icons/information.png}"
+                             width="1024"/>
+                    </a>
+
+
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                    th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+             (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+             (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+             (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+             (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt')))}">
+                </td>
+
+
+                <td th:if="${entry.key.isEventBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}">
+
+                    <p th:if="${entry.key.isPersonalBooking()}" th:text="${entry.value}"></p>
+
+                    <p th:unless="${entry.key.isPersonalBooking()}"
+                       th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+                (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt')))}">
+                    </p>
+                </td>
+                <td th:if="${entry.key.isTicketBooking()}">
+                    <p th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                </td>
+                <td th:text="${entry.key.getRentalInformation().getStartDateString() + ' - ' + entry.key.getRentalInformation().getEndDateString() + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${!eventBookings.isEmpty()}">
+        <h1 th:text="#{myHouse.statistic.eventBookings.Title}">Event Buchungen</h1>
+        <p class="standard-sub" th:text="#{myHouse.statistic.eventBookings.infoText}">Alle Buchungen von Events</p>
+        <table>
+            <thead>
+            <tr>
+                <th width="20%" th:text="#{booking.table.house}">House</th>
+                <th width="15%" th:text="#{booking.table.address}">Address</th>
+                <th width="8%" th:text="#{booking.table.type}">Type</th>
+                <th width="10%" th:text="#{booking.table.details}">Details</th>
+                <th th:text="#{booking.table.time}">Time</th>
+                <th th:text="#{booking.table.actions}">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${eventBookings}">
+                <td><a th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"  th:text="${entry.key.getRentalInformation().getHouse().getName()}" class="external_link">Link</a></td>
+                <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getStreetCityNumber()}"></td>
+
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                    th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+             (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+             (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+             (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+             (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                </td>
+
+                <td th:if="${entry.key.isEventBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isPersonalBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isTicketBooking()}">
+                    <p th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                </td>
+                <td th:text="${entry.key.getRentalInformation().getStartDateString() + ' - ' + entry.key.getRentalInformation().getEndDateString() + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></td>
+                <td style="display: flex; align-items: center; gap: 1rem; height: 100%;">
+                    <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="height: 1.25rem">
+                        <img alt="" class="edit-icon" height="1024" th:src="@{/img/icons/information.png}"
+                             width="1024"/>
+                    </a>
+                    <p th:classappend="${entry.key.getStatus().toString() == 'OPEN' ? 'status-open' :
+                           (entry.key.getStatus().toString() == 'RESERVED' ? 'status-reserved' :
+                           (entry.key.getStatus().toString() == 'PAID' ? 'status-paid' :
+                           (entry.key.getStatus().toString() == 'COMPLETED' ? 'status-completed' :
+                           (entry.key.getStatus().toString() == 'CANCELED' ? 'status-canceled' : 'status-unknown'))))}"
+                       th:text="${entry.key.getStatus().toString() == 'OPEN' ? 'Offen' :
+                            (entry.key.getStatus().toString() == 'RESERVED' ? 'Reserviert' :
+                            (entry.key.getStatus().toString() == 'PAID' ? 'Bezahlt' :
+                            (entry.key.getStatus().toString() == 'COMPLETED' ? 'Abgeschlossen' :
+                            (entry.key.getStatus().toString() == 'CANCELED' ? 'Storniert' : 'Unbekannt'))))}">
+                    </p>
+                </td>
+
+
+                <td th:if="${entry.key.getStatus().toString() == 'OPEN' }">
+                    <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="height: 1.25rem">
+                        <img alt="" class="edit-icon" height="1024" th:src="@{/img/icons/information.png}"
+                             width="1024"/>
+                    </a>
+                    <form th:action="@{/approve}" method="post" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="booking_id" th:value="${entry.key.getId()}">
+                        <input class="approve_button" type="submit" value="Approve">
+                    </form>
+                    <form th:action="@{/cancel}" method="post" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="booking_id" th:value="${entry.key.getId()}">
+                        <input type="hidden" name="origin" th:value="'openBookings/' + ${houseId}">
+                        <input class="decline_button" type="submit" value="Decline">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

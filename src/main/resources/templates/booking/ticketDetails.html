@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:insert="~{header :: navbar}"></nav>
+
+    <div class="main-content" style="max-width: 40rem">
+        <h1 class="standard-header">Rental</h1>
+
+        <h2>Booking Details</h2>
+        <p th:text="'Status: ' + ${booking.getStatus()}"></p>
+        <p th:text="'ID: ' + ${booking.id}"></p>
+        <p th:text="'Number of Tickets: ' + ${booking.tickets}"></p>
+        <p th:text="'Price per Ticket: ' + ${booking.bookingPrice}"></p>
+        <p th:text="'Total Price: ' + ${booking.bookingPrice.multiply(booking.tickets)}"></p>
+
+
+        <br><hr>
+        <div th:if="${event != null}">
+            <h2>Event Details</h2>
+            <p th:text="'Event name: ' + ${event.name}"></p>
+            <p th:text="'Time: ' + ${event.interval.getStart() + ' - ' + event.interval.getEnd() + ' (' + event.interval.getDuration().toDays()} + ' ' + #{date.days} + ')'"></p>
+            <p th:text="'Event Location: ' + ${event.location.getAddressString()}"></p>
+            <p th:text="'Vernstalter: ' + ${eventStaff.getUsername()}"></p>
+            <a th:href="@{/event/{id}(id=${event.id})}" class="external_link"><p th:text="'zur Event Seite'"></p></a>
+
+        </div>
+        <br><hr>
+        <div>
+            <h2>House booked for the Event</h2>
+            <p th:text="'House name: ' + ${booking.getRentalInformation().getHouse().name}"></p>
+            <p th:text="'Booked Interval: ' + ${booking.getRentalInformation().getStartDateString() + ' - ' + booking.getRentalInformation().getEndDateString() + ' (' + booking.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></p>
+            <p th:text="'House Location: ' + ${booking.getRentalInformation().getHouse().getLocation().getAddressString()}"></p>
+            <p th:text="'Vermieter: ' + ${landlord.getUsername()}"></p>
+            <a th:href="@{/house/{id}(id=${booking.getRentalInformation().getHouse().id})}" class="external_link"><p th:text="'zur Haus Seite'"></p></a>
+
+
+        </div>
+    </div>
+</body>
+</html>

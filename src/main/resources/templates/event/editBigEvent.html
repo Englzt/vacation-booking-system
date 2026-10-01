@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.editEvent}">Event bearbeiten</title>
+</head>
+<body>
+    <!--
+        Header soll auskommentiert sein, weil es sonst unter Umständen dazu führen kann,
+        dass ein Event kein Bild hat und dann nicht mehr bearbeitet / gelöscht werden kann.
+    -->
+    <!--<nav th:insert="~{header :: navbar}"></nav>-->
+
+<div class="big-house-container">
+    <form method="post" role="form" class="ui form" id="eventForm" th:action="@{/editBigEvent/{eventId}(eventId=${bigEventForm.eventId})}" th:object="${bigEventForm}" enctype="multipart/form-data">
+        <h1 class="standard-header" th:text="#{event.editEvent}"></h1>
+        <div class="add-house-layout">
+
+            <div class="image-upload-left">
+                <div th:insert="~{common/image_manager :: img_uploader(type='bigevent', amount=${1 - bigEvent.getImagePaths().size()})}"></div>
+                <div th:replace="~{common/image_manager.html :: img_manager(type='bigevent', entityId=${bigEventForm.eventId})}"></div>
+            </div>
+
+            <div class="right-add-area">
+
+                <div class="text-field-container">
+                    <label for="name" th:text="#{event.name}">Name:</label>
+                    <input class="form-input" id="name" name="name" th:field="*{name}" type="text" required="required" />
+                </div>
+
+                <div class="text-field-container">
+                    <label for="description" th:text="#{event.description}">Beschreibung:</label>
+                    <textarea class="form-input" id="description" name="description" th:field="*{description}" maxlength="254" required="required"></textarea>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="location" th:text="#{event.adresse}">Adresse:</label>
+                    <input class="form-input" id="location" name="location" th:field="*{location}" type="text" title="Format: Street House number, Postal code City, Country" pattern=".+?\s+[A-Za-z0-9]+,\s+\d{5}\s+.+?,\s+.+?" required="required" />
+                </div>
+
+                <div class="date-field-container">
+                    <div class="text-field-container">
+                        <label for="interval_start" th:text="#{event.startDate}">Startdatum:</label>
+                        <input class="form-input" id="interval_start" name="interval_start" th:field="*{startDate}" type="date" required="required" />
+                    </div>
+
+                    <div class="text-field-container">
+                        <label for="interval_end" th:text="#{event.endDate}">Enddatum:</label>
+                        <input class="form-input" id="interval_end" name="interval_end" th:field="*{endDate}" type="date" required="required" />
+                    </div>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="time" th:text="#{event.startTime}">Veranstaltungsbeginn:</label>
+                    <input class="form-input" id="time" name="time" th:field="*{time}" type="time" required="required" />
+                </div>
+
+                <div class="text-field-container">
+                    <label for="ticketprice" th:text="#{event.price}">Preis:</label>
+                    <input class="form-input" id="ticketprice" name="ticketprice" th:field="*{ticketprice}" type="number" step="0.01" min="0.01" required="required" />
+                </div>
+
+                <div class="text-field-container">
+                    <label for="tickets" th:text="#{event.addHowManyTickets} + ${bigEventForm.tickets} + ')'"></label>
+                    <input class="form-input" id="tickets" name="tickets" type="number" value="0" step="1" min="0" />
+                </div>
+
+                <div th:if="${dateError != null}" class="ui negative message">
+                    <p class="error-message" th:text="${dateError}"></p>
+                </div>
+
+                <button type="submit" class="approve_button house-button" th:text="#{event.saveChanges}">Änderungen speichern</button>
+            </div>
+        </div>
+    </form>
+    <form method="get" th:action="@{/cancelEditEvent/{id}(id=${bigEventForm.eventId})}" id="cancelEditEvent">
+        <button type="submit" class="silent-del decline_button" th:text="#{button.cancel}">
+            Cancel
+        </button>
+    </form>
+</div>
+</body>
+</html>

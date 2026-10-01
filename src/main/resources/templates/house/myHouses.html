@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Meine Häuser</title>
+</head>
+<body>
+
+    <nav th:insert="~{header :: navbar}"></nav>
+
+    <div class="main-content">
+        <h1 class="standard-header">Meine Häuser</h1>
+<div class="event-list">
+    <div class="house-container-edit" th:each="house : ${allHouses}">
+
+        <div class="house-wrapper">
+            <div class="edit-icon-container">
+                <form method="get" style="height: 1.25rem"
+                      th:action="@{/myHouses/edit/{id}(id=${house.id})}">
+                    <input type="image" th:src="@{/img/icons/pencil.png}" name="edit" alt="edit" class="edit-icon submit">
+                 </form>
+          </div>
+
+            <div class="delete-icon-container">
+                <form method="get" th:action="@{/myHouses/delete/{id}(id=${house.id})}" style="height: 1.5rem;">
+                    <input type="image" th:src="@{/img/icons/delete.png}" name="delete" alt="delete" class="delete-icon submit">
+            </form>
+            </div>
+            <img  th:src="${house.getImagePaths().get(0)}" alt="image" class="house-image" width="1024" height="1024"/>
+            <div class="house-information">
+                <a th:href="@{/house/{id}(id=${house['id']})}" class="event-link">
+                    <h2 class="house-container-title" th:text="${house.name}"></h2>
+                </a>
+                <div class="house-bottom-container">
+                    <div class="location-desc-wrapper">
+                        <p th:text="${house.location.getStreetCity()}" class="white-font"></p>
+                        <p th:text="${house.description}" class="white-font"></p>
+                        <div class="open-his">
+                            <div class="edit-cart-sub">
+                                <img class="edit-icon" th:src="@{/img/icons/time-and-calendar.png}" alt="map-icon" width="1024" height="1024"/>
+                                <a th:href="@{/openBookings/{houseId}(houseId=${house.id})}" th:text="#{booking.table.statistics}" class="leftest-link"></a>
+                            </div>
+
+                            <div class="edit-cart-sub">
+                                <img class="edit-icon" th:src="@{/img/icons/history.png}" alt="map-icon" width="1024" height="1024"/>
+                                <a th:href="@{/rentalHistory/{houseId}(houseId=${house.id})}" th:text="#{booking.table.history}" class="rightest-link"></a>
+                            </div>
+
+                            <div class="edit-cart-sub">
+                                <img class="edit-icon" th:src="@{/img/icons/comment.png}" alt="map-icon" width="1024"
+                                     height="1024"/>
+                                <a th:href="@{/comments/{id}(id=${house.id})}" th:text="#{comment.overview.displayAllComments}" class="rightest-link"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="moon-price">
+
+                        <img th:src="@{/img/icons/moon.png}" alt="map-icon" class="moon-icon" width="1024" height="1024"/>
+                        <h2 class="house-price"
+                            th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+
+                        </h2>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="gradient"></div>
+    </div>
+</div>
+    <div>
+        <form th:action="@{/myHouses/addHouse}" method="get" style="display: flex; align-items: end">
+            <button class="reservation-button add-house" th:text="#{addHouse.submit}">Add House</button>
+        </form>
+
+    </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2021/22
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:**
+allen
+
+**Gruppe:**
+02
+
+== Was habe ich gelernt / was habe ich nicht gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+Durch die Arbeit an dem Projekt habe ich mein wissen von verschiedenen Diagrammarten deutlich verbessert. Dadruch das
+man sich tiefer damit beschäftigen musste habe ich ein deutlich besser Verständnis dafür wie man sie richtig einsetzt. Außerdem habe ich einen besseren Einblick darin, wie man ein größeres Projekt strukturiert und organisiert und welche Fallen dabei auftreten können.
+Weiterhin konnte ich meine Fähigkeiten im Programmieren ausbauen und habe das erste mal Git mit einem größeren
+Projekt, mit mehreren Leuten, benutzt. Der tiefere Einblick in ein Webframework war auch sehr interessant, aber wir
+hätten dabei gerne noch mehr Freiheit für die Verwendung anderer Frameworks gehabt.
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+Die Arbeit im Team hat gut funktioniert und jeder hat seine Rolle gefunden. Es gab zwar stellenweise Unterschiede in
+der Arbeitsmenge, es wurde jedoch keinem Arbeit aufgezwungen und wir haben uns darüber meistens gut Verständigt. Die
+Kommunikation war an einigen Stellen noch ausbaufähig aber insgesamt hat dies, auch mit der Planung der Meetings, gut
+funktioniert.
+
+Beim nächsten Mal würde ich noch mehr auf die Deadlines von Aufgaben achten, da dies an einigen Stellen zu Problemen
+geführt hat und wenn jemand weniger Arbeit hat, Aufgaben die noch in der Zukunft liegen schon vorziehen und besser
+verteilen.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+Die Arbeit mit SalesPoint war an einigen Stellen sehr gut, da es viele Funktionen bereits bereitgestellt hat. Dadurch
+hatte man vor allem am Anfang eine Orientierung wie man das Projekt aufbauen kann. Auch die anderen Frameworks waren
+gut zu verstehen und haben bei der Umsetzung geholfen.
+
+Das Framework war zwar für die Struktur gut, jedoch mussten wir eine einigen Stellen unsere eigenen Lösungen finden,
+da es nicht immer die Funktionen bereitgestellt hat, die wir gebraucht haben. Dadurch konnten wir genauer die
+funktionalitäten Umsetzen, jedoch hat dies auch mehr Zeit in anspruch genommen.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+Meiner Meinung nach wären kleinere Gruppen besser, da die zeitliche Organisation mit so vielen Leuten deutlich
+schwieriger ist. Außerdem fände ich es gut, wenn die Dokumentation weniger umfangreich seien muss und der Fokus noch
+mehr aufs Programmieren, vielleicht in Form von Umfangreicheren Aufgaben gelegt wird.
+
+== Feedback für den Tutor
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+Titus war ein sehr guter Tutor. Er hat immer sehr schnell auf Fragen und Probleme unserer Seits geantwortet und das sogar teilweise an den Wochenenden. 
+Zudem hatte er einen guten Überblick über das Projekt und wusste bei sehr vielen Problemen mit kleinen Tricks und Tipps sowie guten Hinweisen schnell weiterzuhelfen.
+Man konnte sich immer auf ihn verlassen, was eine gewisse Stabilität und Sicherheit während des Projekts mit sich brachte. Die Meetings wurden auch immer sehr kurz und knapp gehalten, sodass man nicht das Gefühl hatte,
+unnötig Zeit in den Meetings zu verschwenden. 
+Allgemein sind wir sehr zufireden mit ihm und wünschen das noch viele Gruppen von ihm genau so gut profitieren können wie wir es konnten!
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
+Es gibt nichts weiter anzumerken.

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="'Delete: ' + ${user.getUserAccount().getUsername()}"></title>
+</head>
+<body>
+
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="main-content">
+    <h1 th:text="'Wirklich ' + ${user.getUserAccount().getUsername()} + ' löschen?'">Konto löschen</h1>
+    <p class="infoText">Es werden alle zu diesem Konto gehörenden Buchungen storniert und ggf. Häuser bzw. Events werden <b>endgültig</b> gelöscht. Das Konto kann jederzeit reaktiviert werden.</p>
+
+
+    <form th:action="@{/users}" method="get">
+        <button class="approve_button" th:text="#{button.cancel}">Abbrechen</button>
+    </form>
+    <br />
+
+    <form th:action="@{/deactivateUser}" method="post">
+        <input type="hidden" name="username" th:value="${user.userAccount.username}" />
+        <button type="submit" class="decline_button" style="width: 140px;">Deaktivieren</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.bookHouseForEvent}">Häuser zum Event buchen</title>
+</head>
+<body>
+
+    <nav th:insert="~{header :: navbar}"></nav>
+
+
+    <div class="main-content">
+    <h1 class="standard-header" th:text="#{event.bookHouseForEvent}">Buche deine Häuser zum Event</h1>
+    <p th:text="#{event.events-nearby-radius-info(${radius})}"></p>
+
+        <div th:if="${!nearbyHouses.isEmpty()}">
+
+
+        <form th:action="@{/myEvents/bookHouses}" method="post">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th th:text="#{event.selection}">Auswahl</th>
+                    <th th:text="#{event.houseName }">Hausname</th>
+                    <th th:text="#{event.description}">Beschreibung</th>
+                    <th th:text="#{event.adresse}">Adresse</th>
+                    <th th:text="#{event.price}">Preis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="house : ${nearbyHouses}">
+                    <td>
+                        <input id="houseIds" name="houseIds" th:value="${house.id}" type="checkbox">
+                    </td>
+                    <td th:text="${house.name}">Hausname</td>
+                    <td th:text="${house.description}">Beschreibung</td>
+                    <td th:text="${house.location.getAddressString()}">Adresse</td>
+                    <td th:text="${house.price}">Preis</td>
+                </tr>
+                </tbody>
+
+
+            </table>
+            <div>
+                <input type="hidden" name="houseIds" th:value="null">
+                <input type="hidden" name="eventId" th:value="${eventId}">
+            </div>
+
+            <br>
+            <button type="submit" class="approve_button" th:text="#{event.bookHouses}">Häuser buchen</button>
+        </form>
+        </div>
+        <div th:if="${nearbyHouses.isEmpty()}">
+            <p class="infoText" th:text="#{event.noHousesNear}">Es sind keine Häuser in der Nähe verfügbar.</p>
+            <form th:action="@{/myEvents}" method="get">
+                <button class="approve_button" th:text="#{event.goBack}">Zurück</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

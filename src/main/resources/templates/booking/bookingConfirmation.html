@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{booking.review.header}">Confirm Booking</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content" style="max-width: 40rem">
+    <div>
+        <h1 class="standard-header" th:text="#{booking.review.header}">Confirm Booking</h1>
+        <h2 class="title-description" th:text="${house.getName()}"></h2>
+    </div>
+    <h3 th:text="#{booking.review.info}">Please review and confirm the booking by making the deposit</h3>
+
+    <div th:if="${bookedEvents != null and !bookedEvents.isEmpty()}">
+        <table class="table" th:each="event : ${bookedEvents}">
+            <thead>
+            <tr>
+                <th>Eventname</th>
+                <th>Beschreibung</th>
+                <th>Adresse</th>
+                <th>Ticketanzahl</th>
+                <th>Preis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${event.getKey().name}">Eventname</td>
+                <td th:text="${event.getKey().description}">Beschreibung</td>
+                <td th:text="${event.getKey().location.getAddressString()}">Adresse</td>
+                <td th:text="${event.getValue()}">Anzahl gebuchter Tickets</td>
+                <td th:text="${event.getKey().price}">Preis</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:text="#{booking.price_event} + ' ' + ${eventPrice}"></a>
+    </div>
+
+    <div style="width: 50%; float: right; margin-left: auto;">
+        <div class="calculation">
+            <div>
+                <p class="nights-times">
+                    <span id="nightsCount" th:text="${duration}"></span>
+                    x
+                    <span id="pricePerNight"
+                          th:text="${house.price.number.doubleValue() == house.price.number.intValue() ? #numbers.formatInteger(house.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(house.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                    >0</span> € Nacht
+                </p>
+            </div>
+            <div class="calc-line"></div>
+            <div class="total-wrapper">
+                <p class="total-p">Gesamt</p>
+                <p class="sum-p" id="totalPrice" th:text="${totalPrice} + '€'">0€</p>
+            </div>
+        </div>
+        <h4 style="text-align: center; color: #858585; font-weight: 500; font-size: .75rem; margin-bottom: 0.5rem"
+            th:text="#{booking.deposit_1} + ' ' + ${deposit} + ' ' + #{booking.deposit_2}">Deposit</h4>
+    </div>
+
+
+    <div class="button-wrapper-price" style="margin-top: 0">
+
+
+        <form method="get" th:action="@{/house/{id}(id = ${house.id})}">
+            <button class="silent-del" type="submit" th:text="#{button.cancel}">Zurück</button>
+        </form>
+
+
+        <form method="post" th:action="@{/rent/createBookings}">
+            <input name="houseId" th:value="${houseId}" type="hidden">
+            <input name="intervalStart" th:value="${intervalStart}" type="hidden">
+            <input name="intervalEnd" th:value="${intervalEnd}" type="hidden">
+            <input type="hidden" name="eventId" th:each="id : ${eventId}" th:value="${id}"/>
+            <input type="hidden" name="bookedTickets" th:each="ticket : ${bookedTickets}" th:value="${ticket}"/>
+
+            <button class="approve_button" th:text="#{booking.actions.confirm}" type="submit"></button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

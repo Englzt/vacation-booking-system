@@ -1,0 +1,76 @@
+= Protokoll Gruppe XX
+
+Treffen am 21.10.2024
+
+Ort:      Apb Gang +
+Beginn:   16:40 Uhr +
+Ende:     17:50 Uhr
+
+__Schriftführer:__ Anthony
+
+*Nächstes Treffen:* +
+28.10.2024, 16:40 Uhr, GER
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Erik
+- Robert B
+- Sokar
+- Francis
+- Anthony
+- Tevin
+- Christoph
+- Robert T
+- Titus
+
+
+== Bemerkungen
+hat erklärt was mir machen und wie das alles funktioniert
+Verwarnungen, besondere Vorfälle, Organisatorisches, wichtige getroffene Entscheidungen
+
+== Retrospektive des letzten Sprints
+alle haben ihre Übungsaufgaben gemacht
+*Issue referenziert die Issue ID von GitHub*
+
+
+== Aktueller Stand
+Alle haben ihre Aufgaben gemacht, es gab ein paar Probleme aber wurden besprochen und es gab Lösungsansätze
+
+== Planung des nächsten Sprints
+nächsten 2 Wochen sollen wir, die Videokurs aufgabe machen (wird bewertet)
+Analyse von der Aufgabe (der Hauptaufgabe)
+in den Ordner Analysis und Design, dort sollen die UML Diagramme rein
+UML Diagramme wichtig: alles in einer Projektdatei, ein Tool wo man große Projektdateien sammeln kann
+als SVG oder PNG aber auch originale Projektdatei
+Welches Programm wollen wir nehmen? +
+-> Magicdraw, IntelliJ, Titus sagt Papyrus +
+
+in den Design Ordner die Diagramme für die Entwurfsphase
+Creative Commons können wir für die Bilder benutzen, aber ihm ist das auch nicht so wichtig(man kann auch nicht cc Bilder nehmen) +
+
+Videoshop ist der wichtigste Teil, wenn man in seinem richtigen Projekt fehler hat +
+-> weil man sich das sehr gut orientieren kann +
+Pflichtenheft +
+man kann das pflichtenheft auf deutsch machen +
+in entwurfsphase, entweder alles auf deutsch oder alles auf englisch +
+-> Anthony sagt auf englisch
+Code entweder einheitlich auf deutsch oder auf englisch +
+Der Videoshop hat auch ein Pflichtenheft +
+Task dort die aufgabenstellung copy pasten +
+Titus sprach Wort der Motivation sich in Salespoint und Spring einzuarbeiten
+ist eine gruppenbwertung, einzelbewertung ist schwierig
+das schlechteste letztes jahr war ne 1.5 +
+es gibt konkrete aufgaben für den Videoshop im Opal Ordner +
+wir sind jetzt in der analyse phase und es gibt unterschiede in der analyse und der entwurfsmodell/phase +
+wenn wir da nicht mehr ganz auf dem schirm haben was wir da machen dürfen, es gab ne übung, da sieht man das
+in die übungsunterlagen schauen -> damit in dem analyseklassendiagramm was drin ist, was da nciht reingehört +
+wer ist genau gemeint bei Customer? genau definieren! +
+
+
+aufgaben der nächsten 2 Wochen! +
+EIGNENES PFLICHTENHEFT gestalten +
+restlichen Tabellen mit den Klassen +
+schaut sich das pflichtenheft dann am montag an +
+diese woche schon mal anfangen +
+

@@ -1,0 +1,99 @@
+= Protokoll Gruppe 2
+
+Treffen am 2.12.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:25 Uhr +
+Ende:     17:20 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+- alle da
+- sokar in discord, weil krank
+
+
+== Bemerkungen
+- test coverage > 60%
+- tests sind alle sinnvoll
+- hat sich viel am design geändert
+- man unterscheidet nicht mehr zwischen big und small event
+- kleinere interne änderungen
+- präsentation war gut, gab nicht viel zu meckern
+- ging so richtung 1.3
+- keine guthaben, eine nachricht reicht
+- frage wegen der präsentation, wie war das jetzt mit uml
+- wir sollten uml diagramme nehmen, aber dort einen großteil der methoden rausnehmen, nur wichtige oder interessante methoden
+- ist es wichtig die TUD vorlage zu nehmen?
+  - es wurde nie was gesagt offiziell, aber es ist besser, irgendwie ist das nen großes generelles gesetz
+- entwicklerdoku müssen wir ständig anpassen? -> titus schaut da nicht immer rein
+- es ist wichtig, dass es zur abgabe konsistent mit dem Code ist
+- javadoc für alle am ende machen
+- tests frage:
+    - immer wenn man in nem test nen user erstellt, dann ist der unique, gibt es eine bessere variante, dass man irgendwo nen datainit macht
+    - gibt es fehler, wenn man verschiedene tests macht
+- mit mokobjekten arbeiten
+- irgendwas mit teardown, gegenteil zu before each
+- bis nächste woche ist nichts
+- bis die woche grundfunktionalität ist erledigt
+- wir sind ziemlich dicht am nächsten meilenstein dran
+- 60% test coverage bleibt für immer
+- wenn sonar qube sagt, dass ist ok dann ist es ok
+- was gab es auf die zwischenpräsentation -> es gibt dafür ne note, es sind 40 punkte, zwischen präsentation ist 1 punkt davon
+- auf opalseite sind codingrules drin, sind die wichtig? -> ist so critical, wie sonarqube sagt es ist critical
+- bei sonarqube gibt es maintainablity, da sollten wir drauf achten
+- nächster meilenstein sind so die musskriterien
+- wir verlängern den einen meilenstein um ne woche und dann machen wir irgendwann crosstesting
+- man kann sich das crosstesting aufteilen
+- aufgabenverteilung:
+    wir haben bis zum 22. für den meilenstein
+    jar über den opal schicken
+
+- christoph guckt sich eventhouse an
+- christoph macht fe kaputt
+- mcaht 2. bestätigungsseite damit
+- admin soll häuse deleten=
+- häuser delten ex nicht
+- events werden nur gecancelt nicht deleted, same by house
+- admin braucht customer übersicht
+- alle buchungen werden storniert wenn haus gelöscht wird
+- robert macht refacotring
+- christoph macht sich neuen branch
+- anthony und sokar machen design
+- tabellen machen
+- bis donnerstag eine seite machen
+- sokar ist am wochenende dabei, genauso wie robert T
+
+
+
+
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+- test coverage > 60%
+Anmerkungen und Kritik zum aktuellen Stand der Software, den Diagrammen und den
+Dokumenten.
+
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===

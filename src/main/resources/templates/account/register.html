@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="~{layout.html}" lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Registrierung</title>
+    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+        <script th:inline="javascript">
+            window.location.href = "/";
+        </script>
+    </th:block>
+</head>
+<body class="login-body">
+<section layout:fragment="content" class="login-container">
+    <h1 class="login-heading" th:text="#{register.title}">Register</h1>
+    <h3 class="login-subheading" th:text="#{register.subheading}"></h3>
+
+    <!-- Global error message -->
+    <div class="error-message global-error" th:if="${registrationError}">
+        <p th:text="${registrationError}"></p>
+    </div>
+
+    <form method="post" class="login-form" role="form" id="form" th:action="@{/register}" th:object="${registrationForm}" autocomplete="off">
+        <div class="field">
+            <label for="name">Name</label>
+            <input id="name" autocomplete="off" name="name" th:field="*{name}" class="form-input login-input" th:errorclass="fieldError" type="text" required="required"/>
+            <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                <p>Der Name darf nicht leer sein.</p>
+            </div>
+        </div>
+        <div class="field">
+            <label th:text="#{register.email}" for="email">Email</label>
+            <!-- I don't know why chromes autofill is so weird-->
+            <input id="email" autocomplete="off" name="email" th:field="*{email}" class="form-input login-input" th:errorclass="fieldError" type="email" required="required"/>
+            <p class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Die Adresse darf nicht leer sein.</p>
+        </div>
+        <div class="password-spacer"></div>
+        <div class="field">
+            <label th:text="#{register.password}" for="password">Password</label>
+            <input id="password" autocomplete="off" name="password" th:field="*{password}" class="form-input login-input" th:errorclass="fieldError" type="password" required="required"/>
+            <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Das Passwort darf nicht leer sein.</p>
+        </div>
+
+        <div class="field">
+            <label th:text="#{register.repeatPassword}" for="repeatPassword">repeat Password</label>
+            <input id="repeatPassword" autocomplete="off" name="repeatPassword" th:field="*{repeatPassword}" class="form-input login-input" th:errorclass="fieldError" type="password" required="required"/>
+            <p class="error-message" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}">Das Passwort darf nicht leer sein.</p>
+        </div>
+
+        <div class="password-spacer"></div>
+
+        <div class="field">
+            <label th:text="#{register.role}">Role</label>
+            <div class="roleRadio register-toggle">
+                 <input type="radio" id="Customer" name="role" value="Customer" checked="checked"/>
+                <label for="Customer">Customer</label>
+
+                <input type="radio" id="EventStaff" name="role" value="EventStaff" />
+                <label for="EventStaff">Eventstaff</label>
+
+                <input type="radio" id="Landlord" name="role" value="Landlord" />
+                <label for="Landlord">Landlord</label>
+
+                <span id="active-label"></span>
+            </div>
+            <p class="error-message" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Error!</p>
+        </div>
+
+        <div class="login-bottom-wrapper">
+            <div class="login-no-acc-container">
+                <p class="no-account" th:text="#{login.hasAccount}">Do you already have an account?</p><!--''-->
+                <a href="/login" class="refer-to-other" th:text="#{login.login}">Login</a>
+            </div>
+            <button type="submit" class="login-button" th:text="#{register.submit}">Registrieren</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.pastEvents}">Vergangene Events</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content">
+
+    <h1 th:text="#{event.pastEvents}" style="text-align: center">Vergangene Events</h1>
+    <h2 th:text="#{myEvent.bigEvents}" class="standard-header-2">Big Events</h2>
+
+    <div class="event-list">
+
+        <div class="big-second-event-container" th:each="event : ${allBigEvents}">
+            <p th:if="${event.isCancelled()}" th:text="#{event.canceled}" class="canceled-event">Abgesagt</p>
+            <a th:href="@{/event/{id}(id=${event.id})}" class="event-link">
+                <div class="event-wrapper">
+
+
+                    <img th:src="${event.getImagePaths().getFirst()}"
+                         th:style="${event.isCancelled()} ? 'filter: saturate(0.2);' : ''"
+                         loading="lazy" alt="image" class="event-image" width="1024" height="1024"/>
+                    <div class="big-event-information">
+                        <h2 class="event-container-title" th:text="${event.name}">Event</h2>
+                        <div class="information-wrapper">
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                                     width="1024" height="1024"/>
+                                <p th:text="${event.description}"></p>
+                            </div>
+
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/time.png}" alt="time-icon" class="event-icon" width="1024"
+                                     height="1024"/>
+                                <p th:text="${event.time}">00:00</p>
+                                <p th:text="${event.getFEStartDateString()} + ' - ' + ${event.getFEEndDateString()}">
+                                    00.00</p>
+                            </div>
+
+                            <div class="event-container-info" th:if="${event.location != null}">
+                                <img th:src="@{/img/icons/map.png}" alt="event-icon" class="event-icon" width="1024"
+                                     height="1024"/>
+                                <p th:text="${event.location.getStreetCityNumber()}">Adresse</p>
+                            </div>
+
+                            <div class="event-container-info" th:if="${event.location != null}">
+                                <img th:src="@{/img/icons/tickets.png}" alt="event-icon" class="event-icon" width="1024"
+                                     height="1024"/>
+                                <p th:text="${event.tickets}"></p>
+                                <p>/</p>
+                                <p th:text="${event.maxTickets}"></p>
+                            </div>
+                        </div>
+
+
+                        <div class="price-buttons">
+                            <div class="button-wrapper-sil-del">
+
+                                <form method="get" th:action="@{/comments/{id}(id=${event.id})}"
+                                      th:if="${event.getTypeString().equals('BIG_EVENT') && !event.isCancelled()}">
+                                    <button class="approve_button ev-but" type="submit" th:text="#{comment.overview.displayAllComments}">
+                                        Comments
+                                    </button>
+                                </form>
+
+                            </div>
+
+                            <h2 class="price" th:if="${event.getTypeString().equals('BIG_EVENT')}"
+                                th:text="${event.price.number.doubleValue() == event.price.number.intValue() ? #numbers.formatInteger(event.price.number, 1, 'NONE') + '€' : #numbers.formatDecimal(event.price.number, 1, 'NONE', 2, 'POINT') + '€'}">
+                                Preis</h2>
+                            <h2 class="price" th:if="${event.getTypeString().equals('SMALL_EVENT')}"
+                                th:text="#{event.onSite}">Vor Ort</h2>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="password-spacer"></div>
+    <h2 th:text="#{myEvent.smallEvents}" class="standard-header-2">Small Events</h2>
+
+    <div class="event-list">
+        <div class="big-second-event-container" th:each="event : ${allSmallEvents}">
+            <p th:if="${event.isCancelled()}" th:text="#{event.canceled}" class="canceled-event">Abgesagt</p>
+            <a th:href="@{/event/{id}(id=${event.id})}" class="event-link">
+                <div class="event-wrapper">
+                    <img th:src="${event.getImagePaths().getFirst()}"
+                         th:style="${event.isCancelled()} ? 'filter: saturate(0.2);' : ''"
+                         loading="lazy" alt="image" class="event-image" width="1024" height="1024"/>
+                    <div class="big-event-information" style="position:relative;">
+                        <h2 class="event-container-title" th:text="${event.name}">Event</h2>
+                        <div class="information-wrapper">
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                                     width="1024" height="1024"/>
+                                <p th:text="${event.description}"></p>
+                            </div>
+
+                            <div class="event-container-info">
+                                <img th:src="@{/img/icons/time.png}" alt="time-icon" class="event-icon" width="1024"
+                                     height="1024"/>
+                                <p th:text="${event.time}">00:00</p>
+                                <p th:text="${event.getFEStartDateString()} + ' - ' + ${event.getFEEndDateString()}">
+                                    00.00</p>
+                            </div>
+
+                            <div class="event-container-info" th:if="${event.location != null}">
+                                <img th:src="@{/img/icons/map.png}" alt="event-icon" class="event-icon" width="1024"
+                                     height="1024"/>
+                                <p th:text="${event.location.getStreetCityNumber()}">Adresse</p>
+                            </div>
+                        </div>
+
+
+                        <div class="price-buttons">
+
+                            <form method="get" th:action="@{/comments/{id}(id=${event.id})}"
+                                  th:if="${event.getTypeString().equals('SMALL_EVENT') && !event.isCancelled()}">
+                                <button class="approve_button ev-but" type="submit" th:text="#{comment.overview.displayAllComments}">
+                                    Comments
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="password-spacer"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{booking.title}">Manage Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+
+    </style>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="main-content">
+
+    <div th:if="${noBookings}" class="no-booking-container">
+        <img th:src="@{/img/emptySpace/booking.png}" alt="" class="filler-image" width="1024" height="1024"/>
+        <h1 class="no-bookings" th:text="#{bookings.customer-empty_1}">You have no Bookings yet!</h1>
+        <p class="cta-no-bookings" th:text="#{bookings.customer-empty_2}">go and book something</p>
+    </div>
+
+    <div th:if="${!noBookings}">
+        <div th:each="list, iterStat : ${bookings}">
+            <div th:if="${!list.isEmpty()}">
+                <div th:switch="${iterStat.index}">
+                    <div th:case="0">
+                        <h1 th:text="#{booking.header.open}">Pending Approval</h1>
+                        <p class="infoText" th:text="#{booking.infotext.open-customer}">Reservation requests from events or customers.</p>
+                        <p class="error-message" th:text="${error}">Error</p>
+                    </div>
+                    <div th:case="1">
+                        <h1 th:text="#{booking.header.reserved}">Confirmed Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.reserved-customer}">Confirmed bookings that are waiting for the customer to pay the deposit.</p>
+                    </div>
+                    <div th:case="2">
+                        <h1 th:text="#{booking.header.paid}">Paid Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.paid}">Fully paid bookings.</p>
+                    </div>
+                    <div th:case="3">
+                        <h1 th:text="#{booking.header.completed}">Completed Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.completed}">Past bookings.</p>
+                    </div>
+                    <div th:case="4">
+                        <h1 th:text="#{booking.header.declined}">Canceled Bookings</h1>
+                        <p class="infoText" th:text="#{booking.infotext.declined}">Canceled bookings.</p>
+                    </div>
+                </div>
+
+                <div class="card-container">
+                    <div class="booking-card" th:each="entry : ${list}">
+                        <h2 class="house-name" style="margin-bottom: 0">
+                            <a th:if="${entry.key.getRentalInformation().getHouse() != null}" class="external_link"
+                               th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"
+                               th:text="${entry.key.getRentalInformation().getHouse().getName()}">House Name</a>
+                            <a th:if="${entry.key.getRentalInformation().getHouse() == null}" class="external_link" th:text="#{booking.details.house_deleted}">House Deleted</a>
+                        </h2>
+                        <p class="external_link"
+                           th:text="${entry.value}"
+                           style=" font-size: 1rem !important; text-decoration: none;
+                                    font-weight: 800;
+                                    color: #0b0b0b;">
+                            Booking Details</p>
+
+                        <div style="display: flex; gap: 2rem; width: 100%">
+                            <p class="type"
+                               th:classappend="${   entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                                               (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                                               (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                                               (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                                               (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                               th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                                                (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+                                                (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+                                                (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                                                (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                            </p>
+
+                            <p th:if="${entry.key.isTicketBooking()}"
+                               th:text="${entry.key.getTickets() == 1 ? entry.key.getTickets() + ' Ticket' : entry.key.getTickets() + ' Tickets'}">
+                            </p>
+                        </div>
+
+
+                        <p th:if="${entry.key.getRentalInformation().getHouse() != null}" class="address" th:text="${entry.key.getRentalInformation().getHouse().getLocation().getAddressString()}">Address</p>
+                        <a th:if="${entry.key.getRentalInformation().getHouse() == null}" class="address" th:text="#{booking.details.house_deleted}">House Deleted</a>
+
+
+                        <p class="time" th:text="${entry.key.getRentalInformation().getStartDateString()
+                            + ' - ' + entry.key.getRentalInformation().getEndDateString()
+                            + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()
+                            + ' '} + #{date.days} + ')'">Time</p>
+
+                        <div class="actions" style="margin-top: 1rem; align-items: end"
+                             th:if="${!entry.key.status.toString().equals('CANCELED') && !entry.key.status.toString().equals('COMPLETED')}">
+                            <form method="post" th:action="@{/cancel}">
+                                <input name="booking_id" th:value="${entry.key.getId()}" type="hidden">
+                                <input name="origin" type="hidden" value="customerrentals">
+                                <input class="silent-del" th:value="#{booking.actions.cancel}" type="submit"
+                                       value="Decline" style="margin-bottom: 0">
+                            </form>
+                            <a th:href="@{/bookings/{id}(id=${entry.key.id})}" style="font-size: 0; line-height: 0">
+                                <img alt="" class="edit-icon" height="1024" style="height: 2rem; width: 2rem"
+                                     th:src="@{/img/icons/information.png}"
+                                     width="1024"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+        </div>
+    </div>
+
+</div>
+
+<footer th:insert="~{common/debug_footer :: time_controller(origin_type='customerrentals', origin_id='null')}"></footer>
+</body>
+</html>

@@ -1,0 +1,92 @@
+= Protokoll Gruppe XX
+
+Treffen am 29.10.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:25 Uhr +
+Ende:     17:00 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+
+- Robert B.
+- Francis
+- Anthony
+- Erik
+- Christoph
+- Tevin
+- Sokar
+- Titus
+
+== Bemerkungen
+Arbeitszeit ist wichtig (time_recording) in minuten (nicht genau)
+heute fängt woche 3 an
+auch gruppeninternen sachen
+unser privates meeting ging: 14.00-16:50
+anhand der arbeitszeit wird geschaut wie motiviert und ob jemand nicht zu viel macht
+bei der planung des nächsten sprints, in die tabelle eintragen an aufgaben und dann in der retroperspektive schauen was man alles umgesetzt hat
+
+kann man an dem Diagramm in der Zukunft was ändern? pflichtenheft wird umgesetzt, man merkt dann oft später meistens, pflichtenheft kann man spöter ändern
+wir müssen entwicklerdoku schreiben
+achten das die Namen im Code konsistent mit dem Pflichtenheft sind
+
+müssen nicht umbedingt kommentare schreiben aber man sollte doku schreiben (javadoc)
+sollen in das klassendiagramm methoden? -> wenn wir schon welche identifizieren können, können die mit rein
+Klassendiagramm drauf achten, dass es richtige AnalyeUML ist
+es fehlten multiplizitäten
+inhaltlich sah uml gut aus
+
+
+
+== Retrospektive des letzten Sprints
+wir haben issues angelegt
+wir haben ein projekt gemach damit man so ne übersicht hat
+UML Diagramme erstellt (erster entwurf)
+
+
+
+// See http://asciidoctor.org/docs/user-manual/=tables page not found 🤨
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#1     |Aufgaben Videoshop       |in Progress      |-
+|#3     |Systemgrenzen / Top Lvl Arch       |in Progress      |
+|===
+
+
+== Aktueller Stand
+basic UML Diagramm, wird bisschen überarbeitet
+guestbook aufgaben teilweise gelöst(je nach Person)
+
+
+Kritik am UML:
+man braucht nicht umbedingt nen übergeordneten event katalog
+Event ist nicht zu einem haus zugeordnet, man kann nicht nur ein haus buchen, wenn man nicht nur das Haus dazubucht
+Wenn man als Kunde ferienhaus bucht und man das event mitbucht, dann ist das haus mit dem event assoziert
+macht mehr sinn den kunden anstatt das haus an das event zu binden
+Bzgl des bindens ist nicht gemeint, dass das event nicht im haus stattfinden soll
+event an sich braucht nicht nen haus an sich, eventlocation muss nicht über diese Plattform vergeben werden
+
+
+
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#1     |Videoshop Aufgaben     | ... |       Sokar, Erik, Anthony     | in Progress
+|#2     |UI Prototyp     | gestaltung Oberfläche |       Anthony     | todo
+|#4     |Klassendiagramm     | ... | Robert B., Francis     | todo
+|#5     |Aufgabenstellung und Zielsetzung     | ... | Sokar     | todo
+|#6     |Produktnutzung und Interessenten     | ... | Robert T.     | todo
+|#7     |Anwendungs-/Überblicksdiagram + 9. Nicht funktionale Anforderungen    | ... | Robert B., Francis     | todo
+|#8     |Funktionale Anforderungen    | ... |  Erik     | todo
+|#9     |Akzeptanztestfälle    | ... |  Tevin     | todo
+|===

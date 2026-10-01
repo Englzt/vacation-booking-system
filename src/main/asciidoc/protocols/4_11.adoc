@@ -1,0 +1,130 @@
+= Protokoll Gruppe 2
+
+Treffen am 4.11.2024
+
+Ort:      GER +
+Beginn:   11:10 Uhr +
+Ende:     12:25 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+- Erik
+- Robert B
+- Sokar (Discord weil krank)
+- Francis
+- Anthony
+- Tevin
+- Christoph
+- Robert T
+- Titus
+
+== Bemerkungen
+kleine Bemerkung zum UML Diagramm
+ein vermieter besteht nicht aus mehreren Häusern, zur normalen Aggregation umändern
+Beiden Komposition, die an der klasse hängen
+location abhängig von event - dynamisch location den events zuordnen
+ähnlich mit Ferienhaus und location
+Preis attribut muss hinzugefügt werden
+ist sehr zufrieden und nachvollziehbar
+subsysteme stimmen nicht ganz mit der toparchitektur ein
+toplevel: zusammenziehen
+erweiterungen Videoshop:
+will sehen, dass es von jedem funktioniert
+alle haben ihre aufgabe mit bravur erfüllt
+er hat anmerkungen zu entwurfsprozesse:
+anfänger businesslogik in den controller implementieren
+controller soll keine businesslogik enthalten, in ne service klasse auslagern
+in den service kommt die logik
+man soll gegen interfaces programmieren und nicht gegen konkrete klassen
+Spring repos: wir haben garkeine implementierung von den repos
+Spring repos funktionieren so, dass automatisch auf basis der defininition
+ne klasse implementiert wird (dependency inversion)
+
+
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|7     |7.1/2 Anwendungs-/Überblicksdiagram + 9. Nicht funktionale Anforderungen
+#7       |DONE      |…
+|4     |Klassendiagramm |DONE      |…
+|3     |TopLevelarchitektur |DONE      |…
+|5     |Aufgabenstellung und Zielsetzung |DONE      |…
+|8     |Funktionale Anforderungen |DONE      |…
+|9     |Akzeptanzfälle |DONE      |…
+|6     |Produknutzung/Interessenten |DONE      |…
+|2     |UI |DONE      |…
+|1     |aufgaben videoshop |DONE      |…
+
+|===
+
+
+== Aktueller Stand
+Anmerkungen und Kritik zum aktuellen Stand der Software, den Diagrammen und den
+Dokumenten.
+
+== Planung des nächsten Sprints
+Was steht an die nächste woche:
+Doku der entwicklerversion erstellen
+erster Anwendungsprotyp
+subsysteme nehmen und dann in paaren die sollen dann für ein subsystem entscheiden
+und dann einen protypen zusammenstellen
+alles was man an entitäten identifiziert hat, sollte dann auch drin sein
+neue häuser anlegen, anmelden und mit rollen identifizieren
+Grafische UI geben, was mit backend verlinkt ist
+Was daran nich tlight ist:
+nicht im backend vollständig implementiert, mockup geht
+für ihn als kunden vorab version, auf mieten drücken, aber es muss nicht vollständige
+spring rest architektur sein
+wir sind zeitlich begrenzt, deswegen vernünftig machen, damit man das verwenden kann
+MVP - minimal viable product
+nicht alle funktionalitäten, aber die wichtigsten
+nicht einbauen -> verbindung zwischen ferienhaus und event
+nicht einbazen -> wenn man haus mietet, dass dann events vorgeschlagen werden
+man einigt sich wie methoden heissen
+fragen:
+wieso muss man alles machen?
+prototyp macht man am anfang, schaut ob das so funktioniert, dann haut man ihn eingentlich weg
+-> wir haben zeitlich, deswegen wiederverwenden
+man muss es nicht ordentlich machen
+wir haben 2 wochen, währendesssen auch die entwicklerdoku
+muss man die doku auch für das frontend machen?
+nein, nur für das backend
+auch noch die entwurfsdiagramme -> sind teil der entwicklerdoku
+was für den meilenstein abgegeben werden muss ist nur nen grobentwurf
+Salespoint nicht im detail machen
+sollte erkennbar werden welceh elemente aus salepoint wiederverwendet werden
+sequenzdiagramme sinnvoll
+Abschnitt 4.4 weglassen -> am ende
+entwicklerdoku ist selbstwerklärend wenn man videoshop beispiel hat
+jeder soll fullstack was machen
+--- für account
+
+login logout accountmanagment
+register
+create account
+and few account detilas, dleet noch nicht
+events
+
+--- Rentalcatalog
+add
+delete house
+
+- francis schreibt ab hier mit
+
+in 2 wochen entwurf und prototyp
+
+
+
+
+
+*Issue referenziert die Issue ID von GitHub*
+keine neuen Issues

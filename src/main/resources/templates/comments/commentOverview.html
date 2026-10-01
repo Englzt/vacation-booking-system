@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{comment.overview.title}"></title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content" style="max-width: 60rem;">
+    <h1 class="standard-header" style="margin-top: 2rem" th:if="${comments != null and not #lists.isEmpty(comments)}"
+        th:text="#{comment.overview.title}">Kommentare</h1>
+
+    <div th:if="${comments != null and not #lists.isEmpty(comments)}"
+         th:insert="~{common/comments :: show_comments(product=${house != null ? house : event})}"></div>
+
+    <!-- Wenn keine Kommentare vorhanden sind -->
+    <div class="no-booking-container" th:if="${comments == null or #lists.isEmpty(comments)}">
+        <img alt="Keine Buchungen" class="filler-image" height="1024" th:src="@{/img/emptySpace/comment.png}"
+             width="1024"/>
+        <h1 class="no-bookings" th:text="#{comment.overview.none}">There are currently no comments</h1>
+        <p class="cta-no-bookings" th:text="#{comment.overview.noneDescription}">for this product.</p>
+    </div>
+</div>
+</body>
+</html>

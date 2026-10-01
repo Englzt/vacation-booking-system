@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{event.createSmallEvent}">Kleines Event erstellen</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="big-house-container">
+    <form method="post" role="form" class="ui form" id="eventForm"
+          th:action="@{/createSmallEvent}" th:object="${smallEventForm}" enctype="multipart/form-data">
+        <h1 class="standard-header" th:text="#{event.createSmallEvent}">Kleines Event erstellen</h1>
+
+        <div class="add-house-layout">
+            <div class="image-upload-left">
+                <div th:insert="~{common/image_manager :: img_uploader(type='smallevent', amount=${1})}"></div>
+            </div>
+
+            <div class="right-add-area">
+                <div class="text-field-container">
+                    <label for="name" th:text="#{event.name}">Name:</label>
+                    <input class="form-input" id="name" name="name" th:field="*{name}" th:errorclass="fieldError" type="text" required="required"/>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                        <p class="error-message" th:errors="*{name}">Name darf nicht leer sein</p>
+                    </div>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="description" th:text="#{event.description}">Beschreibung:</label>
+                    <textarea class="form-input" id="description" name="description" th:field="*{description}"
+                              maxlength="254" th:errorclass="fieldError" required="required"></textarea>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('description')}">
+                        <p class="error-message" th:errors="*{description}">Die Beschreibung darf nicht fehlen!</p>
+                    </div>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="location" th:text="#{event.adresse}">Adresse:</label>
+                    <input class="form-input" id="location" name="location" th:field="*{location}" th:errorclass="fieldError" type="text"
+                           title="Format: Street House number, Postal code City, Country"
+                           pattern=".+?\s+[A-Za-z0-9]+,\s+\d{5}\s+.+?,\s+.+?"
+                           value="Nöthnitzer Straße 46, 00187 Dresden, Deutschland" required="required"/>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('location')}">
+                        <p class="error-message" th:errors="*{location}">Adresse ist erforderlich</p>
+                    </div>
+                </div>
+
+                <div class="date-field-container">
+                    <div class="text-field-container">
+                        <label for="interval_start" th:text="#{event.startDate}">Startdatum:</label>
+                        <input class="form-input" id="interval_start" name="interval_start" th:field="*{startDate}" type="date" required="required"/>
+                    </div>
+
+                    <div class="text-field-container">
+                        <label for="interval_end" th:text="#{event.endDate}">Enddatum:</label>
+                        <input class="form-input" id="interval_end" name="interval_end" th:field="*{endDate}" type="date" required="required"/>
+                    </div>
+                </div>
+
+                <p class="error-message" th:if="${dateError != null}" th:text="${dateError}"></p>
+
+                <div class="text-field-container">
+                    <label for="time" th:text="#{event.startTime}">Veranstaltungsbeginn:</label>
+                    <input class="form-input" id="time" name="time" th:field="*{time}" type="time" required="required"/>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="recurrencePattern" th:text="#{event.repetition}">Wiederholung:</label>
+                    <select class="form-input" id="recurrencePattern" th:field="*{recurrencePattern}">
+                        <option th:each="pattern : ${recurrencePatternEnum}" th:value="${pattern}" th:text="${pattern}"></option>
+                    </select>
+                </div>
+
+                <div class="text-field-container">
+                    <label for="endOfRecurrence" th:text="#{event.endOfRecurrence}">Ende der Wiederholung:</label>
+                    <input class="form-input" id="endOfRecurrence" name="endOfRecurrence" th:field="*{endOfRecurrence}" type="date"/>
+                </div>
+
+                <p class="error-message" th:if="${recurrenceError != null}" th:text="${recurrenceError}"></p>
+
+                <div class="text-field-container">
+                    <label for="advertisingRadius" th:text="#{event.advertisingRadius}">Wähle Werberadius in m (max. 20.000m):</label>
+                    <input class="form-input" id="advertisingRadius" name="advertisingRadius" type="number" required="required" min="1" max="20000" step="1"/>
+                    <a th:text="#{event.advertisingRadiusExplanation}">Jegliche Häuser, welche in diesem Radius existieren, werden angefragt, ob Sie Werbung für dieses Event machen wollen!</a>
+                </div>
+
+                <div class="button-wrapper-price">
+                    <button type="submit" class="approve_button house-button" th:text="#{event.createSmallEvent}">Kleines Event erstellen</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <form method="get" th:action="@{/myEvents}" id="cancelCreateEvent">
+        <button type="submit" class="silent-del decline_button" th:text="#{button.cancel}">
+            Cancel
+        </button>
+    </form>
+</div>
+</body>
+</html>

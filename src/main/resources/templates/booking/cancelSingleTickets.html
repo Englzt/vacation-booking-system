@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Refund Tickets</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:insert="~{header :: navbar}"></nav>
+
+    <div class="main-content">
+        <h1 class="standard-header">Eventtickets stornieren</h1>
+        <h2>Wenn alle Tickets zurückgegeben werden, wird auch automatisch die zugehörige Haus-Reservierung in dem Zeitraum storniert!</h2>
+
+        <div>
+
+
+            <form th:action="@{/tickets/refund/{id}(id=${booking.id})}" method="post">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Auswahl für refund</th>
+                        <th>Eventname</th>
+                        <th>Beschreibung</th>
+                        <th>Adresse</th>
+                        <th>Preis</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${#numbers.sequence(1, booking.getTickets())}">
+                        <td>
+                            <input id="refundCount" name="refundCount" th:value="${i}" type="checkbox">
+                        </td>
+                        <td th:text="${event.name}">Hausname</td>
+                        <td th:text="${event.description}">Beschreibung</td>
+                        <td th:text="${event.location.getAddressString()}">Adresse</td>
+                        <td th:text="${booking.bookingPrice}">Preis</td>
+                    </tr>
+                    </tbody>
+
+
+                </table>
+                <div>
+                    <input type="hidden" name="refundCount" th:value="null">
+                </div><br />
+                <p class="error-message" th:if="${eventStartedError != null}" th:text="#{booking.tickets.eventStartedError}">startedAlreadyError</p>
+
+                <br>
+                <button th:if="${eventStartedError == null}" type="submit" class="decline_button" th:text="#{booking.tickets.refundTickets}">Tickets stornieren</button>
+            </form>
+            <form method="get" th:action="@{/tickets}">
+                <button th:if="${eventStartedError != null}" type="submit" class="decline_button" th:text="#{booking.tickets.goBack}"></button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

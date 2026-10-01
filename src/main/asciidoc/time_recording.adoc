@@ -1,0 +1,58 @@
+= Zeiterfassung für Gruppe 02
+
+Notieren Sie die Zeit in Minuten für jeden Entwickler und – getrennt davon – für Team-Treffen pro Woche (Wochengranularität).
+Die individuell erfasste Zeit beinhaltet auch das Lesen von Dokumentationen, Besprechungen mit Teamkollegen und sonstige auf das Praktikum bezogene Aufgaben, jedoch *nicht* das Team-Treffen (= letzte Spalte).
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+//Woche 1:    Guestbook
+//Woche 2-3:  Videoshop, Pflichtenheft   ~01.11
+//Woche 4-5:  Prototyp_1, DevDoku        ~15.11
+//Woche 6-7:  OOP_1, Basisfunktionen     ~29.11 
+//Woche 8-9:  OOP_2, Muss-Kriterien      ~13.12
+//Woche 10:   OOP_3, (Tests)             ~20.12
+//--Weihnachten
+//Woche 11-12 OOP_4, "Projekt Endspurt"  ~17.01
+
+[option="headers"]
+|===
+|Woche |Francis |Robert B. |Robert T.| Anthony |Erik |Christoph T. |Sokar |Tevin |Meeting
+|1    |480  |420    |300    |256    |240    |540    |420    |360    |-
+|2    |600  |660    |900    |330  |240    |600    |560    |600    |70
+|3    |560   |720    |775    |504   |540    |420    |650    |720    |35
+|4    |660  |660   |771    |381    |705    |540    |600    |600    |75
+|5    |1200  |1140    |1356    |1002    |960    |960   |1080    |900    |25
+|6    |960  |960    |970    |652    |540    |1080    |780    |630   |50
+|7    |600  |1200    |1190    |294    |720    |960    |625    |400   |-
+|8    |520 |780    |109    |272    |360    |720    |120    |500   |55
+|9    |600  |540    |1209    |598    |750    |600    |500    |900    |20
+|10    |30  |1080    |797    |309    |480    |0    |270    |415   |30
+|11    |300  |1020   |852   |0    |540    |120    |0    |100    |50
+|12    |500 |780    |638   |726    |360    |840    |320    |450   |20
+|===
+
+Bitte tragen Sie am Ende des Praktikums noch folgende weitere Werte ein:
+Summe der Arbeitsstunden pro Student:
+
+* Francis: 117 Stunden
+* Robert B.: 164 Stunden
+* Robert T.: 164 Stunden
+* Anthony: 89 Stunden
+* Erik: 107 Stunden
+* Christoph T.: 123 Stunden
+* Sokar: 99 Stunden
+* Tevin: 110 Stunden
+
+Arbeitsstunden pro Woche pro Student:
+
+* Francis: 10 Stunden/Woche
+* Robert B.: 14 Stunden/Woche
+* Robert T.: 14 Stunden/Woche
+* Anthony: 7 Stunden/Woche
+* Erik: 9 Stunden/Woche
+* Christoph T.: 10 Stunden/Woche
+* Sokar: 8 Stunden/Woche
+* Tevin: 9 Stunden/Woche
+
+Durchschnittliche Arbeitzeit aller Studenten pro Woche:
+
+* 122 Stunden/Woche

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{myHouse.rentalHistory.Title}">Vermietungs-Historie</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<div class="main-content">
+
+    <div th:if="${allBookings.isEmpty()}" class="no-booking-container">
+        <img th:src="@{/img/emptySpace/house-cozy.png}" alt="" class="filler-image" width="1024" height="1024"/>
+        <h1 class="no-bookings" th:text="#{myHouse.rentalHistory.noBookings}">There are no Bookings</h1>
+        <p class="cta-no-bookings" th:text="#{myHouse.rentalHistory.forThisHouse}">for this house</p>
+    </div>
+
+    <div th:if="${!allBookings.isEmpty()}">
+        <h1 th:text="#{myHouse.rentalHistory.table.Title}">Alle mit dem Haus assoziierten Buchungen.</h1>
+        <p class="infoText" th:text="#{myHouse.rentalHistory.table.infoText}">Alle Buchungen zu diesem Haus.</p>
+        <table>
+            <thead>
+            <tr>
+                <th th:text="#{booking.table.house}">House</th>
+                <th width="25%" th:text="#{booking.table.address}">Address</th>
+                <th width="8%" th:text="#{booking.table.details}">Details</th>
+                <th width="8%" th:text="#{booking.table.type}">Type</th>
+                <th width="10%" th:text="#{booking.table.details}">Booked by</th>
+                <th th:text="#{booking.table.time}">Time</th>
+                <th th:text="#{booking.table.status}">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${allBookings}">
+                <td><a th:href="@{/house/{id}(id=${entry.key.getRentalInformation().getHouse().getId()})}"
+                       th:text="${entry.key.getRentalInformation().getHouse().getName()}" class="external_link">
+                    <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                         width="1024" height="1024"/>
+                </a></td>
+                <td th:text="${entry.key.getRentalInformation().getHouse().getLocation().getAddressString()}"></td>
+                <td>
+                    <a th:href="@{/bookings/{id}(id=${entry.key.id})}" class="external_link">
+                        <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                             width="1024" height="1024"/>
+                    </a>
+                </td>
+
+                <td th:classappend="${entry.key.getRentalType().toString() == 'EVENT' ? 'type-event' :
+                    (entry.key.getRentalType().toString() == 'PERSONAL' ? 'type-personal' :
+                    (entry.key.getRentalType().toString() == 'TICKET' ? 'type-ticket' :
+                    (entry.key.getRentalType().toString() == 'VACANT' ? 'type-vacant' :
+                    (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'type-advertising' : 'type-unknown'))))}"
+                    th:text="${entry.key.getRentalType().toString() == 'EVENT' ? 'Event' :
+                     (entry.key.getRentalType().toString() == 'PERSONAL' ? 'Persönlich' :
+                     (entry.key.getRentalType().toString() == 'TICKET' ? 'Ticket' :
+                     (entry.key.getRentalType().toString() == 'VACANT' ? 'Verfügbar' :
+                     (entry.key.getRentalType().toString() == 'ADVERTISING' ? 'Werbung' : 'Unbekannt'))))}">
+                </td>
+
+                <td th:if="${entry.key.isEventBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isPersonalBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isAdvertisingBooking()}">
+                    <p th:text="${entry.value}"></p>
+                </td>
+                <td th:if="${entry.key.isTicketBooking()}">
+                    <p th:text="${entry.key.getTickets()} + ' Tickets'"></p>
+                </td>
+                <td th:text="${entry.key.getRentalInformation().getStartDateString() + ' - ' + entry.key.getRentalInformation().getEndDateString() + ' (' + entry.key.getRentalInformation().getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></td>
+
+
+                <td th:classappend="${entry.key.getStatus().toString() == 'OPEN' ? 'status-open' :
+                           (entry.key.getStatus().toString() == 'RESERVED' ? 'status-reserved' :
+                           (entry.key.getStatus().toString() == 'PAID' ? 'status-paid' :
+                           (entry.key.getStatus().toString() == 'COMPLETED' ? 'status-completed' :
+                           (entry.key.getStatus().toString() == 'CANCELED' ? 'status-canceled' : 'status-unknown'))))}"
+                    th:text="${entry.key.getStatus().toString() == 'OPEN' ? 'Offen' :
+                            (entry.key.getStatus().toString() == 'RESERVED' ? 'Reserviert' :
+                            (entry.key.getStatus().toString() == 'PAID' ? 'Bezahlt' :
+                            (entry.key.getStatus().toString() == 'COMPLETED' ? 'Abgeschlossen' :
+                            (entry.key.getStatus().toString() == 'CANCELED' ? 'Storniert' : 'Unbekannt'))))}">
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

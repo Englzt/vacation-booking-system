@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        lang="en">
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="big-profile-container" style="flex-direction: column">
+    <div style="display: flex; flex-direction: row;
+    gap: 2rem;
+    margin-left: auto;
+    margin-right: auto;">
+        <div class="image-relative">
+            <img th:src="${@userController.getCurrentUserProfilePicture()}" alt="" class="big-profile-pic" width="1024"
+                 height="1024"/>
+            <img sec:authorize="hasRole('EventStaff')" th:src="@{/img/icons/disco-ball.png}" alt=""
+                 class="show-profile-role" width="1.5rem" height="1.5rem"/>
+            <img sec:authorize="hasRole('Landlord')" th:src="@{/img/icons/home-icon.png}" alt=""
+                 class="show-profile-role" width="1.5rem" height="1.5rem"/>
+            <img sec:authorize="hasRole('Admin')" th:src="@{/img/icons/persons.png}" alt="" class="show-profile-role"
+                 width="1.5rem" height="1.5rem"/>
+        </div>
+
+        <div class="right-profile">
+            <h2 th:text="${username}" class="user-name">User Profile</h2>
+            <p th:text="${email}" class="user-email">email</p>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" th:text="#{nav.logout}"
+               class="user-logout">Logout</a>
+        </div>
+    </div>
+
+
+    <div style="display: flex; flex-direction: row; gap: 4rem; justify-content: center; align-items: start; margin-top: 4rem">
+        <div>
+            <form method="post" action="/profile/change-email" role="form" id="emailForm" th:object="${passwordForm}"
+                  style="display: flex; flex-direction: column;">
+                <h2 th:text="#{profile.email.title}"></h2>
+                <div class="field">
+                    <label for="email" th:text="#{profile.email}">Email</label>
+                    <input id="email" autocomplete="off" name="email" th:field="*{email}" class="form-input"
+                           th:errorclass="fieldError" type="email" required="required"/>
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                        <p>Mail passt nicht!</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="oldPassword" th:text="#{profile.oldPassword}">Altes Passwort</label>
+                    <input id="oldPassword" autocomplete="off" name="oldPassword" th:field="*{oldPassword}"
+                           class="form-input" th:errorclass="fieldError" type="password" required="required"/>
+                    <div class="error-message" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}">
+                        <p>Passwort stimmt nicht überein</p>
+                    </div>
+                </div>
+
+                <button class="approve_button" type="submit" th:text="#{profile.changeMailOnly}"
+                        style="margin-left: auto">E-Mail ändern
+                </button>
+            </form>
+        </div>
+
+        <div>
+            <form method="post" action="/profile/change-password" role="form" id="passwordForm"
+                  th:object="${passwordForm}"
+                  style="display: flex; flex-direction: column;">
+                <h2 th:text="#{profile.password.title}"></h2>
+                <div class="field">
+                    <label for="oldPassword" th:text="#{profile.oldPassword}">Altes Passwort</label>
+                    <input id="oldPassword" autocomplete="off" name="oldPassword" th:field="*{oldPassword}"
+                           class="form-input" th:errorclass="fieldError" type="password" required="required"/>
+                    <div class="error-message" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}">
+                        <p>Passwort stimmt nicht überein</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="newPassword" th:text="#{profile.newPassword}">Neues Passwort</label>
+                    <input id="newPassword" autocomplete="off" name="newPassword" th:field="*{newPassword}"
+                           class="form-input" th:errorclass="fieldError" type="password" required="required"/>
+                    <div class="error-message" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}">
+                        <p>Neues Passwort passt nicht</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="confirmPassword" th:text="#{profile.confirmPassword}">Passwort bestätigen</label>
+                    <input id="confirmPassword" autocomplete="off" name="confirmPassword" th:field="*{confirmPassword}"
+                           class="form-input" th:errorclass="fieldError" type="password" required="required"/>
+                    <div class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+                        <p>Passwort stimmt nicht überein</p>
+                    </div>
+                </div>
+
+                <button class="approve_button" type="submit" th:text="#{profile.saveChanges}" style="margin-left: auto">
+                    Passwort ändern
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

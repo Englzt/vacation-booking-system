@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{booking.details.header}">Rental Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:insert="~{header :: navbar}"></nav>
+
+    <div class="main-content" style="max-width: 40rem">
+        <h1 class="standard-header" th:text="#{booking.details.header}">Rental Details</h1>
+
+        <h2 th:text="#{booking.details.general}">General Information</h2>
+        <p th:text="#{booking.details.booking_date} + ': ' + ${booking.getDateCreatedFormatted()}"></p>
+        <p th:text="#{booking.table.status} + ': ' + ${booking.getStatus()}"></p>
+        <p th:text="#{booking.table.id} + ': ' + ${booking.id}"></p>
+        <p th:text="#{booking.table.type} + ': ' + ${booking.rentalType}"></p>
+        <p th:text="#{booking.table.time} + ': ' +  ${rental.getStartDateString() + ' - ' + rental.getEndDateString() + ' (' + rental.getInterval().getDuration().toDays()} + ' ' + #{date.days} + ')'"></p>
+
+        <br><hr>
+        <div th:if="${event != null}">
+            <h2>Event Details</h2>
+            <p th:text="#{myEvent.name} + ': ' +  ${event.name}"></p>
+        </div>
+
+        <div th:if="${customer != null}">
+            <h2>Customer Details</h2>
+            <p th:text="#{user.customer_name} + ': ' +  ${customer.username}"></p>
+        </div>
+
+        <br><hr>
+        <h2>House Details</h2>
+        <div th:if="${rental.getHouse() != null}">
+            <p th:text="#{myHouse.name} + ': ' +  ${rental.getHouse().getName()}"></p>
+            <p th:text="#{user.landlord_name} + ': ' +  ${landlord.username}"></p>
+            <p th:text="#{myHouse.address} + ': ' +  ${rental.getHouse().getLocation().getAddressString()}"></p>
+            <a th:href="@{/house/{id}(id=${rental.getHouse().id})}" class="external_link"><p th:text="#{booking.details.view_house}"></p></a>
+        </div>
+        <div th:unless="${rental.getHouse() != null}">
+            <p th:text="#{booking.details.house_deleted}"></p>
+        </div>
+
+    </div>
+</body>
+</html>

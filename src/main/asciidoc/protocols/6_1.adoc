@@ -1,0 +1,54 @@
+= Protokoll Gruppe 2
+
+Treffen am 06.01.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:20 Uhr +
+Ende:     16:50 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- alle
+
+== Bemerkungen
+Sachen die bis zur finalen Abgabe offen sind:
+
+- Dokumentation Updaten
+- Ordner aufräumen
+- Time Recording vollständig
+- Lehrevaluation
+- Ascii doc evaluation sheet (jeder seine eigene oder Gruppendokument)
+- Termin Abschlusspräsentation Mo 03.02 3.DS
+
+Wir haben die neue Aufgabenstellung bekommen. Wir sollen Kommentare zu Häuser und Event hinzufügen.
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+Probleme vom Crosstesting fixen aber funktionalität ist da. Neue Aufgabe noch hinzufügen
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===

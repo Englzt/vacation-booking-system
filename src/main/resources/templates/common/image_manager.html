@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="img_uploader(type, amount)">
+    <h2 th:text="#{img_manager.upload_images}">Upload Images</h2>
+    <p th:text="#{img_manager.images_remaining} + ': ' + ${amount}"></p>
+    <p>
+
+        <label class="files-label" for="files">Bilder hochladen</label>
+        <input
+                id="files"
+                style="padding: 0; border: none; border-radius: 0; margin-top: 1rem"
+                type="file"
+                name="files"
+                multiple>
+
+
+</div>
+<div th:fragment="img_manager(type, entityId)" style="margin-top: 20px;">
+    <hr>
+    <h2 th:text="#{img_manager.manage_images}">Manage Images</h2>
+    <p th:text="#{img_manager.info}">Image Manager Info</p>
+
+    <div class="img_manager_container" style="margin-top: 1rem; gap: 0.5rem">
+
+
+        <div th:if="${!#lists.isEmpty(images) and images[0] != null}" class="img_manager_element"
+             style="display: flex; flex-direction: column; align-items: center; position: relative; ">
+            <img th:src="${images[0]}" alt="Event Image"
+                 style="border-radius: 0.5rem; height: 16.5rem; width: 16.5rem; border: 2px solid #ec1605; margin-left: 0; margin-right: auto; object-fit: cover">
+
+            <div style="position: absolute; bottom: calc(0.5rem - 2px); right: calc(0.5rem - 2px); display: flex; flex-direction: row; gap: 0.25rem; margin-bottom: 0.25rem; align-items: end;">
+                <a style="border-radius: 100%; background: rgba(255,255,255,0.8); font-size: 0; line-height: 0; "
+                   class="img_manager-button delete-button"
+                   th:href="@{/deleteImage/{id}(id=${images[0] != null and images[0].contains('/') ? images[0].substring(images[0].lastIndexOf('/') + 1) : 'unknown'},type=${type}, entityId=${entityId}, action='delete')}">
+                    <img class="delete-icon" th:src="@{/img/icons/trash.png}">
+                </a>
+
+<!--                <a style="border-radius: 100%; background: rgba(255,255,255,0.8); font-size: 0; line-height: 0"-->
+<!--                   class="img_manager-button move-button"-->
+<!--                   th:href="@{/changeImageOrder/{id}(id=${images[0] != null and images[0].contains('/') ? images[0].substring(images[0].lastIndexOf('/') + 1) : 'unknown'},type=${type}, entityId=${entityId}, direction='down')}">-->
+<!--                    <img class="move-icon" th:src="@{/img/icons/right-arrow.png}" style="transform: translateX(3px);">-->
+<!--                </a>-->
+            </div>
+        </div>
+
+        <!-- Section für die restlichen Bilder -->
+        <div class="img_manager_container">
+            <div th:each="image, iterStat : ${images}" th:if="${iterStat.index > 0}" class="img_manager_element"
+                 style="
+                 margin-bottom: auto;
+                 display: inline-flex; flex-direction: column; align-items: center; position: relative">
+                <img th:src="${image}" alt="Event Image"
+                     style="border-radius: 0.5rem; height: 8rem; width: 8rem; object-fit: cover">
+
+                <div style="position: absolute; bottom: 0.5rem; display: flex; flex-direction: row; gap: 0.25rem; margin-bottom: 0.25rem;
+    align-items: end;">
+                    <a style="border-radius: 100%; background: rgba(255,255,255,0.8); font-size: 0; line-height: 0"
+                       class="img_manager-button move-button"
+                       th:href="@{/changeImageOrder/{id}(id=${image.substring(image.lastIndexOf('/') + 1)},type=${type}, entityId=${entityId}, direction='up')}">
+                        <img class="move-icon" th:src="@{/img/icons/right-arrow.png}"
+                             style="transform: rotate(180deg) translateX(3px);">
+                    </a>
+
+                    <a style="border-radius: 100%; background: rgba(255,255,255,0.8); font-size: 0; line-height: 0"
+                       class="img_manager-button delete-button"
+                       th:href="@{/deleteImage/{id}(id=${image.substring(image.lastIndexOf('/') + 1)},type=${type}, entityId=${entityId}, action='delete')}">
+                        <img class="delete-icon" th:src="@{/img/icons/trash.png}">
+                    </a>
+
+                    <a style="border-radius: 100%; background: rgba(255,255,255,0.8); font-size: 0; line-height: 0"
+                       class="img_manager-button move-button"
+                       th:if="${!iterStat.last}"
+                       th:href="@{/changeImageOrder/{id}(id=${image.substring(image.lastIndexOf('/') + 1)},type=${type}, entityId=${entityId}, direction='down')}">
+                        <img class="move-icon" th:src="@{/img/icons/right-arrow.png}"
+                             style="transform: translateX(3px);">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

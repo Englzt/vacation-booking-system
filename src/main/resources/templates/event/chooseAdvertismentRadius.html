@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{myEvent.chooseRadius.Header}">Choose Radius</title>
+</head>
+<nav th:insert="~{header :: navbar}"></nav>
+
+<body>
+<div class="main-content" style="max-width: 40rem">
+    <h1 class="standard-header2" th:text="#{myEvent.chooseRadius.Header}">Choose Radius</h1>
+    <p class="cta-no-bookings" style="margin-top: 1rem; margin-bottom: 1rem;" th:text="#{myEvent.chooseRadius.Description}">Specify a radius to search for advertisements within a certain
+        distance.</p>
+
+
+    <form th:action="@{/myEvents/chooseAdvertismentRadius/{id}(id=${event.id})}" method="post">
+        <label for="advertisingRadius" th:text="#{myEvent.chooseRadius.InputLabel}">Radius (meters):</label>
+        <input id="advertisingRadius" name="advertisingRadius" type="number" min="1" max="20000" step="1" required>
+
+        <div style="display: flex; gap: 0.5rem; width: 50%; flex-direction: row; justify-content: space-between; margin-top: 1rem; height: 2rem;">
+            <button th:href="@{/myEvents}" class="silent-del ev-but" th:text="#{myEvent.bookAdvertisements.cancelButton}">Cancel</button>
+            <button type="submit" class="approve_button ev-but" th:text="#{myEvent.chooseRadius.ButtonText}">Search</button>
+        </div>
+
+    </form>
+
+<!--    <form th:action="@{/myEvents}" method="get">-->
+
+    </form>
+</div>
+</body>
+</html>

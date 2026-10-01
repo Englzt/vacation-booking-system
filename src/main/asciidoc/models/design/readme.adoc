@@ -1,0 +1,5 @@
+= Artefaktsammlung der Entwurfsphase
+
+In diesem Ordner sind alle in der Entwurfsphase erstellten Diagramme als Bild und zusätzlich das zugrundeliegende Modell zu hinterlegen.
+
+Die Diagramme wurden mit https://astah.net/products/astah-uml/[Astah UML] erstellt. Eine Studentenlizenz kann https://astah.net/pricing/academic/[hier] bezogen werden.

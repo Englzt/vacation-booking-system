@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Events zu Häuser buchen</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content" style="display: flex; flex-direction: row; gap: 3rem; margin-top: 10rem">
+    <div>
+        <img th:src="@{/img/icons/check.png}" alt="" width="300" height="300"/>
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: space-between; ">
+        <h1 class="standard-header">Buchung wurde erstellt</h1>
+        <div style="display: flex; justify-content: space-between">
+            <form method="get" th:action="@{/bookings/{id}(id=${createdBooking.id})}"
+                  style="display: inline-block; margin-right: 10px;">
+                <button class="silent-app" type="submit" th:text="#{booking.view_booking}">View Booking</button>
+            </form>
+            <form method="get" th:action="@{/customerrentals}" style="display: inline-block; margin-right: 10px;">
+                <button class="approve_button" type="submit" th:text="#{booking.view_all_bookings}">View Rentals
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

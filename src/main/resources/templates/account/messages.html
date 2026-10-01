@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+    <title th:text="#{message.title}">Messages</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content" style="max-width: 60rem;">
+    <div th:if="${unreadMessages.isEmpty() && readMessages.isEmpty()}" class="no-booking-container">
+            <img th:src="@{/img/emptySpace/notification.png}" alt="" class="filler-image" width="1024" height="1024"/>
+            <h1 class="no-bookings" th:text="#{message.noMessages}"></h1>
+            <p class="cta-no-bookings" th:text="#{message.noMessagesInfo}"></p>
+        </div>
+
+
+        <div th:if="${!unreadMessages.isEmpty()}">
+            <h1 class="standard-header" th:text="#{message.title}">Messages</h1>
+        <p class="infoText" th:text="#{message.info.unread}">Unread messages and Booking Updates</p>
+            <div class="messages-wrapper">
+                <div th:each="entry : ${unreadMessages}" class="message-container">
+                    <div class="blue-dot"></div>
+                    <div style="width: 100%;">
+                        <p th:text="${entry.getTimestampString()}" style="color: #9c9c9c;"></p>
+                        <div style="display: flex; flex-direction: row; align-items: center; width: 100%; gap: 1rem;">
+                            <p th:utext="${entry.getBody()}" style="font-size: 1.25rem; width: 70%;"></p>
+                            <a th:if="${!entry.getTitle().equals('')}" th:href="@{/bookings/{id}(id=${entry.getTitle()})}" class="external_link">
+                                <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                                     style="margin: auto;"
+                                     width="1024" height="1024"/></a>
+
+                        </div>
+
+                    </div>
+                    <form th:action="@{/read}" method="post" style="margin-top: auto; margin-right: 0.5rem;">
+                        <input type="hidden" name="message_id" th:value="${entry.getId()}">
+
+                        <input type="image" th:src="@{/img/icons/read.png}" name="skip" alt="" class="skip submit"
+                               th:value="#{message.table.read}"
+                               style="border-radius: 0; margin: 0; padding: 0; opacity: 1; height: 2rem; width: 2rem;">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    <br/>
+    <br/>
+
+
+    <div th:if="${!readMessages.isEmpty()}">
+        <p class="infoText" th:text="#{message.info.read}"> Read Messages</p>
+        <div class="messages-wrapper">
+            <div th:each="entry : ${readMessages}" class="message-container">
+                <div class="grey-dot"></div>
+                <div style="width: 100%;">
+                    <p th:text="${entry.getTimestampString()}" style="color: #9c9c9c;"></p>
+                    <div style="display: flex; flex-direction: row; align-items: center; width: 100%; gap: 1rem;">
+                        <p th:utext="${entry.getBody()}" style="font-size: 1.25rem; width: 70%;"></p>
+                        <a th:href="@{/bookings/{id}(id=${entry.getTitle()})}" class="external_link">
+                            <img th:src="@{/img/icons/information.png}" alt="time-icon" class="event-icon"
+                                 style="margin: auto;"
+                                 width="1024" height="1024"/></a>
+
+                    </div>
+
+                </div>
+                <form th:action="@{/delete}" method="post">
+                    <input type="hidden" name="message_id" th:value="${entry.getId()}">
+
+                    <input type="image" th:src="@{/img/icons/deleteMail.png}" name="skip" alt="" class="skip submit"
+                           th:value="#{message.table.read}"
+                           style="border-radius: 0; margin: 0; padding: 0; opacity: 1; height: 2rem; width: 2rem;">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

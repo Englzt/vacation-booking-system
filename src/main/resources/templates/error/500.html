@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>500 - Interner Serverfehler</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="no-booking-container">
+    <img th:src="@{/img/emptySpace/serverOff.png}" alt="" class="filler-image" width="1024" height="1024"/>
+    <h1 class="error-code">500</h1>
+    <h1 class="no-bookings" th:text="#{server.error-header-500}">Server Fehler</h1>
+    <p class="cta-no-bookings" th:text="#{server.error-message-500}">Ein interner Server Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.</p>
+</div>
+</body>
+</html>

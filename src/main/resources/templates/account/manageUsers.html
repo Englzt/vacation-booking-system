@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Nutzerverwaltung</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:insert="~{header :: navbar}"></nav>
+
+
+<div class="main-content">
+<h1>Nutzerverwaltung</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Benutzername</th>
+            <th>Email</th>
+            <th>Rolle</th>
+            <th>Aktion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" th:if="${user.getUserAccount().getUsername() != currentUsername}">
+            <td th:text="${user.userAccount.username}">Benutzername</td>
+            <td th:text="${user.userAccount.email}">Email</td>
+            <td>
+                <div th:with="roles=${user.userAccount.roles.toList()}">
+            <span th:each="role, iterStat : ${roles}">
+                <span th:text="${role.name}"></span><span th:if="${!iterStat.last}">, </span>
+            </span>
+                </div>
+            </td>
+            <td>
+                <form th:if="${user.getUserAccount().isEnabled()}" th:action="@{/deactivateUser}" method="get">
+                    <input type="hidden" name="username" th:value="${user.userAccount.username}" />
+                    <button type="submit" class="decline_button" style="width: 140px;">Deaktivieren</button>
+                </form>
+                <form th:if="${!user.getUserAccount().isEnabled()}" th:action="@{/activateUser}" method="post">
+                    <input type="hidden" name="username" th:value="${user.userAccount.username}" />
+                    <button type="submit" class="approve_button" style="width: 140px;">Aktivieren</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

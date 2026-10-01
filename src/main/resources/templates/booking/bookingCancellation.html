@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{booking.cancellation.header}">Cancel Booking</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content" style="max-width: 45rem">
+    <h1 class="standard-header" th:text="#{booking.cancellation.header}">Cancel Booking</h1><br/>
+
+    <!--    hier evtl stuff für events ticket, siehe bookingConfirmation-->
+
+    <div th:if="${booking.getRentalType().toString().equals('PERSONAL')}">
+        <div th:if="${!has_started}">
+            <p class="standard-sub" th:text="#{booking.cancellation.deadline} + ' ' + ${deadline}">Stornierungsfrist</p>
+            <div th:if="${!tickets.isEmpty()}">
+                <p class="standard-sub" th:text="#{booking.cancellation.ticket.header}">Tickets to be refunded</p>
+                <p class="standard-sub" th:each="ticket : ${tickets}"
+                   th:text="${ticket.key} + ': ' + ${ticket.value.getBookingPrice() + ' × ' + ticket.value.getTickets()}">
+                    Ticket</p>
+            </div>
+            <p th:if="${eligible && fully_paid}" th:text="#{booking.cancellation.full_refund}">Full refund</p>
+            <p class="standard-sub" th:if="${eligible}"
+               th:text="#{booking.cancellation.eligible} + ' - ' +#{booking.cancellation.refund_amount} + ' ' + ${amount} + ' + ' + ${amount_tickets} + ' = ' + ${amount.add(amount_tickets)}">
+                Eligible</p>
+
+            <p class="standard-sub" th:if="${!eligible}" th:text="#{booking.cancellation.not_eligible}">Not eligible</p>
+
+        </div>
+
+        <div th:if="${has_started}">
+            <p class="standard-sub" th:text="#{booking.cancellation.error}">Cancellation error</p>
+        </div>
+        <p th:text="#{booking.cancellation.info}" style="text-align: center">Please review the booking before you cancel
+            it.</p>
+    </div>
+    <div th:if="${!booking.getRentalType().toString().equals('PERSONAL')}">
+        <p th:text="${booking.getRentalType()}"></p>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 1rem">
+        <form method="get" style="display: inline-block; margin-right: 10px;"
+              th:action="@{/{origin}(origin=${origin})}">
+            <button class="approve_button" th:text="#{button.cancel}" type="submit">Zurück</button>
+        </form>
+
+        <form th:if="${!has_started}" method="post" style="display: inline-block; margin-right: 10px;"
+              th:action="@{/decline}">
+            <input name="booking_id" th:value="${booking.getId()}" type="hidden">
+            <input name="origin" type="hidden" th:value="${origin}">
+            <input class="silent-del" th:value="#{booking.actions.cancel}" type="submit"
+                   value="Decline">
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

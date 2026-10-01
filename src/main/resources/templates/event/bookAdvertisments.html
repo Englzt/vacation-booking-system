@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="#{myEvent.bookAdvertisements.Header}">Book Advertisements</title>
+</head>
+<body>
+<nav th:insert="~{header :: navbar}"></nav>
+<div class="main-content">
+    <h1 th:text="#{myEvent.bookAdvertisements.Header}">Book Advertisements</h1>
+
+    <p class="cta-no-bookings" th:text="#{myEvent.bookAdvertisements.NumberOfHouses} + ${housesInRadius.size()}">Number of Houses</p>
+    <p class="cta-no-bookings" style="margin-bottom: 1rem;" th:text="#{myEvent.bookAdvertisements.Radius} + ${advertisingRadius}">Chosen Radius</p>
+    <div th:if="${!housesInRadius.isEmpty()}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{myEvent.bookAdvertisements.Table.HouseName}">House Name</th>
+                <th th:text="#{myEvent.bookAdvertisements.Table.Description}">Description</th>
+                <th th:text="#{myEvent.bookAdvertisements.Table.Location}">Address</th>
+                <th th:text="#{myEvent.bookAdvertisements.Table.Price}">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="house : ${housesInRadius}">
+                <td th:text="${house.name}">House Name</td>
+                <td th:text="${house.description}">Description</td>
+                <td th:text="${house.location.getAddressString()}">Address</td>
+                <td th:text="${house.price}">Price</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <div style="display: flex; gap: 0.5rem; width: 25%; flex-direction: row; justify-content: space-between;">
+            <form th:action="@{/myEvents}" method="get">
+                <button type="submit" class="silent-del ev-but" th:text="#{myEvent.bookAdvertisements.cancelButton}">Cancel</button>
+            </form>
+            <form th:action="@{/myEvents/bookAdvertisments/{id}(id=${event.id})}" method="post">
+                <input id="advertisingRadius" name="advertisingRadius" type="hidden" th:value="${advertisingRadius}">
+                <button type="submit" class="approve_button ev-but" th:text="#{myEvent.bookAdvertisements.bookButton}">Book</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div th:if="${housesInRadius.isEmpty()}">
+        <p class="cta-no-bookings" style="margin-bottom: 1rem;" th:text="#{myEvent.bookAdvertisements.NoHousesError}">No houses available within the radius.</p>
+        <form th:action="@{/myEvents}" method="get">
+            <button type="submit" class="silent-del ev-but" th:text="#{myEvent.bookAdvertisements.cancelButton}">Cancel</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

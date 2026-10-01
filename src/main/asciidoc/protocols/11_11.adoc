@@ -1,0 +1,86 @@
+= Protokoll Gruppe 2
+
+Treffen am 11.11.2024
+
+Ort:      Ort des Treffens +
+Beginn:   16:20 Uhr +
+Ende:     16:45 Uhr
+
+__Schriftführer:__ Anthony Lanzenberger
+
+*Nächstes Treffen:* +
+XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+
+__Teilnehmer:__
+- Erik
+- Robert B
+- Sokar
+- Francis
+- Anthony
+- Tevin
+- Christoph
+- Robert T
+- Titus
+
+== Bemerkungen
+sieht sehr gut aus, geht in eine gute Richtung von den Diagrammen her
+treffen wir eine unterscheidung zwischen produkt und dem inventory item?
+haben kein extra event booking, könnte probleme machen
+francis hat was aufgeschrieben
+beispiel wieder der videoshop
+-> bei erstellung eines customers wird ein neuer UserAccount zugewiesen
+bei customer controller aus dem videoshop gibt es eine Methode für den Admin, also boss wo man sich alle anschauen kann
+mit dem @preauthorize kannman die berechtigungen ansehen
+wie rollen zugewiesen werden kann man sich im initializer anschauen
+create nimmt als param namen des user accounts
+3. param nimmt er die rolle
+useraccount klasse sollte die fähigkeit haben nachträgtlich rollen zu ändern
+wir bruachen keine 4 unterschiedlichen implementierungen
+-> haben nur den einen user und der useraccount hat dann die rollen -> customer, admin, boss ...
+man muss schauen in welches subsystem man die methoden packt
+activate, view acc, ... kommen dann alle in den user rein
+landlord hat house dinger aber irgendwie hat das christoph auch
+!!!!konkreten klassen als rollen Implementieren!!!!
+was ist sonarlindt und sonarqube? -> bruachen wir nicht direkt
+man muss bei der abgabe der meilensteine die sonarqube kriterien erfüllen
+müssen gemergeten branches einzeln funktionieren? -> sollten schon alleinstehend funktionieren, was man aus anderen braucht kann man auch mocken
+immer gegen interfaces implementieren, wenn man klassen aus anderen mockt
+
+
+Organisatorisches:
+- nachdem man protoyp abgegeben hat kommt zwischenpräsentation
+- dort stellt man aktuellen stand vor
+- in der woche vom 25. 29.
+- link mit terminumfrage
+- dort muss finaler protyp gezeigt werden
+- wir stellen vor den anderne gruppen vor und titus
+
+
+Was gibt es zutun:
+- diagramme beenden
+- implementierung
+
+
+
+
+
+
+== Retrospektive des letzten Sprints
+es gab keine Issues letzte woche
+
+== Aktueller Stand
+Diagramme sind sehr weit
+
+
+
+
+== Planung des nächsten Sprints
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#15     |Dokumentation 3.     | ... |       Francis, Rober B.     | todo
+|#17     |Dokumentation  4.3 / 4.4   | ... |       Anthony, Sokar     | todo
+|#14     |Dokumentation   1. /2.  | ... | Engltz, Erik     | todo
+|#16     |Dokumentation  4.1 / 4.2   | ... | Christoph, Tevin     | todo
+|===
+
